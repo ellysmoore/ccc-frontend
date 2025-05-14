@@ -2,13 +2,40 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { PurchaseModal } from '@/components';
-import { FaTrash } from 'react-icons/fa';
-import { useCommonStore } from '@/store/commonStore';
 import { useRouter } from 'next/navigation';
+import { FaTrash } from 'react-icons/fa';
+
+import { PurchaseModal } from '@/components';
+import { Button } from '@/components/Button';
+import { useCommonStore } from '@/store/commonStore';
 import { apiRequest } from '@/utils';
 import { MESSAGE_DATA } from '@/data/dummyData';
-import { Button } from '@/components/Button';
+
+// Define CartItem type
+export interface CartItem {
+  message_id: string;
+  album_art: string;
+  topic: string;
+  description: string;
+  price: number;
+}
+
+// User type and default value (mocked)
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  is_administrator: boolean;
+  is_super_admin: boolean;
+}
+
+const user: User = {
+  id: '1',
+  name: 'Guest',
+  email: 'guest@example.com',
+  is_administrator: false,
+  is_super_admin: false,
+};
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>(MESSAGE_DATA);
@@ -16,28 +43,6 @@ export default function CartPage() {
   const [openModal, setOpenModal] = useState('');
   const { setRefreshCart, refreshCart } = useCommonStore((state) => state);
   const router = useRouter();
-  // const user = null;
-  interface User {
-    id: string;
-    name: string;
-    email: string;
-    is_administrator: boolean;
-    is_super_admin: boolean;
-  };
-  
-  const user: User = {
-    id: "1", // Replace with appropriate default values
-    name: "Guest",
-    email: "guest@example.com",
-    is_administrator: false,
-    is_super_admin: false,
-  };
-
-  // useEffect(() => {
-  //   if (!openModal && cartItems.length < 1) {
-  //     router.push('/library');
-  //   }
-  // }, [openModal, cartItems, router]);
 
   const loadCart = async () => {
     try {
@@ -55,12 +60,11 @@ export default function CartPage() {
   }, []);
 
   const removeFromCart = async (index: number, id: string) => {
-    setCartItems(prev => prev.filter((_, i) => i !== index));
+    setCartItems((prev) => prev.filter((_, i) => i !== index));
     try {
       await apiRequest({ url: `/api/cart/remove/${id}` });
       loadCart();
-      setRefreshCart(!refreshCart)
-      // SHOW MESSAGE
+      setRefreshCart(!refreshCart);
     } catch (error) {
       console.error('Error removing item:', error);
     }
@@ -68,7 +72,7 @@ export default function CartPage() {
 
   return (
     <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full container mx-auto px-4 py-10">
-      <h2 className='font-[500] border-b pb-[10px] border-gray-300 w-full flex items-center text-[#0D0D12] text-f18'>
+      <h2 className="font-[500] border-b pb-[10px] border-gray-300 w-full flex items-center text-[#0D0D12] text-f18">
         Cart
       </h2>
 
@@ -82,28 +86,26 @@ export default function CartPage() {
                 <th className="p-3">Actions</th>
               </tr>
             </thead>
-
             <tbody>
               {cartItems.map((item, index) => (
                 <tr key={item.message_id} className="border-b border-[#E4E7EC]">
                   <td className="min-w-[300px] p-3 flex items-center gap-4">
                     <Image
-                      src={`${item.album_art}`}
+                      src={item.album_art}
                       alt={item.topic}
                       width={70}
                       height={70}
                       className="rounded-[8px] shadow-sm"
                     />
-                    <div className='flex flex-col gap-[4px]'>
+                    <div className="flex flex-col gap-[4px]">
                       <h5 className="text-f16 font-medium">{item.topic.replace(/_/g, ' ')}</h5>
                       <span className="text-gray-500 text-f14">{item.description}</span>
                     </div>
                   </td>
-
                   <td className="min-w-[100px] p-2 text-f15 font-semibold">₦ {item.price.toLocaleString()}</td>
                   <td className="min-w-[100px] p-3 text-f14">
                     <button onClick={() => removeFromCart(index, item.message_id)}>
-                      <FaTrash className='cursor-pointer text-red-500 hover:text-red-700' />
+                      <FaTrash className="cursor-pointer text-red-500 hover:text-red-700" />
                     </button>
                   </td>
                 </tr>
@@ -121,30 +123,22 @@ export default function CartPage() {
 
         {cartItems.length > 0 && (
           <div className="mt-5 flex justify-end">
-            <Button 
-              label='Proceed to Checkout'
+            <Button
+              label="Proceed to Checkout"
               onClick={() => setOpenModal('checkout')}
-              containerClassName='!w-fit'
+              containerClassName="!w-fit"
             />
           </div>
         )}
       </div>
 
-      <PurchaseModal 
-        isOpen={openModal == 'checkout'}
+      <PurchaseModal
+        isOpen={openModal === 'checkout'}
         onClose={() => setOpenModal('')}
-        userEmail={user?.email}
+        userEmail={user.email}
         amount={String(total)}
         handleNext={() => router.push('/library')}
       />
     </div>
   );
-}
-
-export interface CartItem {
-  message_id: string;
-  album_art: string;
-  topic: string;
-  description: string;
-  price: number;
 }
