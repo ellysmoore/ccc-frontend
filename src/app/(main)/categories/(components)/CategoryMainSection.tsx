@@ -21,7 +21,22 @@ export const CategoryMainSection = ({ title, query, messages } : { title: string
   ];
   const [openModal, setOpenModal] = useState('');
   // const { addToCart } = useCartStore(state => state);
-  const user = null;
+
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    is_administrator: boolean;
+    is_super_admin: boolean;
+  };
+  
+  const user: User = {
+    id: "1", // Replace with appropriate default values
+    name: "Guest",
+    email: "guest@example.com",
+    is_administrator: false,
+    is_super_admin: false,
+  };
 
   console.log(setPage, setPages, setSortBy)
 
@@ -172,7 +187,6 @@ export const CategoryMainSection = ({ title, query, messages } : { title: string
       <PurchaseModal 
         isOpen={openModal == 'checkout'}
         onClose={() => setOpenModal('')}
-        // @ts-expect-error null
         userEmail={user?.email}
         title='Instant Purchase'
         handleNext={() => setOpenModal('')}
