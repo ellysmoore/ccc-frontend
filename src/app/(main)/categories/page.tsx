@@ -13,7 +13,22 @@ import { FaAngleDoubleRight } from 'react-icons/fa';
 const CategoriesIndexPage = () => {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
-  const user = null;
+  // const user = null;
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    is_administrator: boolean;
+    is_super_admin: boolean;
+  };
+  
+  const user: User = {
+    id: "1", // Replace with appropriate default values
+    name: "Guest",
+    email: "guest@example.com",
+    is_administrator: false,
+    is_super_admin: false,
+  };
 
   const downloads: Message[] = MESSAGE_DATA;
   const recent: Message[] = MESSAGE_DATA;
@@ -35,7 +50,6 @@ const CategoriesIndexPage = () => {
           </div>
         }>
           {downloads.map((msg) => (
-            // @ts-expect-error null
             <SermonCard key={msg.id} user={user} message={msg} />
           ))}
         </SermonSection>
@@ -47,7 +61,6 @@ const CategoriesIndexPage = () => {
           </div>
         }>
           {recent.map((msg) => (
-            // @ts-expect-error null
             <SermonCard key={msg.id} user={user} message={msg} />
           ))}
         </SermonSection>
