@@ -3,7 +3,7 @@
 import { MessageCard } from "@/app/(components)/MessageCard";
 import { Pagination } from "@/components";
 import { PurchaseModal } from "@/components";
-import { useCartStore } from "@/store/cartStore";
+// import { useCartStore } from "@/store/cartStore";
 import { Message } from "@/types/messageType";
 import Image from "next/image";
 import React, { useState } from "react";
