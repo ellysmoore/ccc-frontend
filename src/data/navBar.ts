@@ -1,0 +1,51 @@
+export const MENU_DATA = [
+  {
+    id: 1,
+    label: 'Home',
+    path: '/',
+    slug: 'home',
+    showFor: ['ADMIN', 'USER', 'NON_USER'],
+  },
+  {
+    id: 2,
+    label: 'eLibrary Home',
+    path: '/',
+    slug: 'general',
+    showFor: ['ADMIN', 'USER', 'NON_USER'],
+  },
+  {
+    id: 3,
+    label: 'Playlist',
+    path: '/playlist',
+    slug: 'playlist',
+    showFor: ['ADMIN', 'USER'],
+  },
+  {
+    id: 4,
+    label: 'Dashboard',
+    path: '/admin/dashboard',
+    slug: 'dashboard',
+    showFor: ['ADMIN'],
+  },
+  {
+    id: 5,
+    label: 'Library',
+    path: '/library',
+    slug: 'library',
+    showFor: ['ADMIN', 'USER'],
+  },
+  {
+    id: 6,
+    label: 'Login',
+    path: '',
+    slug: 'login',
+    showFor: ['ADMIN', 'USER', 'NON_USER'],
+  },
+  {
+    id: 7,
+    label: 'Sign Up',
+    path: '',
+    slug: 'signup',
+    showFor: ['ADMIN', 'USER', 'NON_USER'],
+  },
+];
