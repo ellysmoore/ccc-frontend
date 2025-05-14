@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { MessageCard } from './(components)';
+import React, { useEffect, useState } from 'react'
+// import { MessageCard } from './(components)';
 import CategoryCard from './(components)/CategoryCard';
 import { Pagination } from '@/components';
 import Image from 'next/image';
@@ -18,6 +18,12 @@ const CategoriesIndexPage = () => {
   const downloads: Message[] = MESSAGE_DATA;
   const recent: Message[] = MESSAGE_DATA;
   const categories: Category[] = CATEGORIES;
+
+  useEffect(() => {
+    setPages(1);
+    setPage(1);
+  }, [])
+  
 
   return (
     <div className="flex h-full flex-col md:flex-row gap-[12px] mb-2">

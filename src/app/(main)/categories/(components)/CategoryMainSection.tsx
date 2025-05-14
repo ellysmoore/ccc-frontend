@@ -20,7 +20,7 @@ export const CategoryMainSection = ({ title, query, messages } : { title: string
     { link: '', title: 'Sort by Name (Acs)' }
   ];
   const [openModal, setOpenModal] = useState('');
-  const { addToCart } = useCartStore(state => state);
+  // const { addToCart } = useCartStore(state => state);
   const user = null;
 
   console.log(setPage, setPages, setSortBy)

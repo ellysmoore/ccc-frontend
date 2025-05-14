@@ -17,6 +17,8 @@ export const SearchSidebar = ({
   const [speakerSearch, setSpeakerSearch] = useState("");
   const [serviceSearch, setServiceSearch] = useState("");
 
+  console.log('categories', categories);
+
   useEffect(() => {
     fetch("/api/speakers").then(res => res.json()).then(setSpeakers);
     fetch("/api/services").then(res => res.json()).then(setServices);
