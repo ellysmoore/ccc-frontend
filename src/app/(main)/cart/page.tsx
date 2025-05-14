@@ -16,7 +16,22 @@ export default function CartPage() {
   const [openModal, setOpenModal] = useState('');
   const { setRefreshCart, refreshCart } = useCommonStore((state) => state);
   const router = useRouter();
-  const user = null;
+  // const user = null;
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    is_administrator: boolean;
+    is_super_admin: boolean;
+  };
+  
+  const user: User = {
+    id: "1", // Replace with appropriate default values
+    name: "Guest",
+    email: "guest@example.com",
+    is_administrator: false,
+    is_super_admin: false,
+  };
 
   // useEffect(() => {
   //   if (!openModal && cartItems.length < 1) {
@@ -118,7 +133,6 @@ export default function CartPage() {
       <PurchaseModal 
         isOpen={openModal == 'checkout'}
         onClose={() => setOpenModal('')}
-        // @ts-expect-error null
         userEmail={user?.email}
         amount={String(total)}
         handleNext={() => router.push('/library')}

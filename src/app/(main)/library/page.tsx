@@ -8,7 +8,22 @@ import { MessageCard } from '@/app/(components)/MessageCard';
 import { MESSAGE_DATA } from '@/data/dummyData';
 
 const LibraryIndexPage = () => {
-  const user = null;
+  // const user = null;
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    is_administrator: boolean;
+    is_super_admin: boolean;
+  };
+  
+  const user: User = {
+    id: "1", // Replace with appropriate default values
+    name: "Guest",
+    email: "guest@example.com",
+    is_administrator: false,
+    is_super_admin: false,
+  };
   const [messages, setMessages] = useState<Message[]>(MESSAGE_DATA); 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -48,7 +63,6 @@ const LibraryIndexPage = () => {
             <MessageCard
               key={message.id}
               message={message}
-              // @ts-expect-error null
               user={user}
             />
           ))}

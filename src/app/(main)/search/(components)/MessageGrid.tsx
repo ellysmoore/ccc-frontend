@@ -8,7 +8,23 @@ export const MessageGrid = ({
   messages, 
   loading,
 }: MessageGridProps) => {
-  const user = null;
+  // const user = null;
+  
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    is_administrator: boolean;
+    is_super_admin: boolean;
+  };
+  
+  const user: User = {
+    id: "1", // Replace with appropriate default values
+    name: "Guest",
+    email: "guest@example.com",
+    is_administrator: false,
+    is_super_admin: false,
+  };
 
   if (loading) {
     return (
