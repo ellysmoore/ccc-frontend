@@ -4,11 +4,10 @@ import React, { Suspense } from "react";
 import NotFoundContent from "./NotFoundContent";
 
 const NotFoundPage = () => {
-
   return (
-    <Suspense fallback={null}>
-    <NotFoundContent />
-  </Suspense>
+    // <Suspense fallback={null}>
+      <NotFoundContent />
+    // </Suspense>
   );
 };
 
