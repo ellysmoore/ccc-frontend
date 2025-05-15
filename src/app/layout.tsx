@@ -3,6 +3,8 @@ import { Roboto /*, Fira_Sans_Condensed*/ } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/layouts/MainLayout";
 import { QueryProvider } from "@/providers";
+import { Suspense } from "react";
+import { Loader } from "@/components/Loader";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -29,11 +31,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <QueryProvider>
-          <MainLayout>
-            {children}
-          </MainLayout>
-        </QueryProvider>
+        <Suspense fallback={
+            <div className='p-[16px] md:p-[25px] w-full h-screen flex flex-col items-center justify-center '>
+              <Loader size="big" />
+            </div>
+          }
+        >
+          <QueryProvider>
+            <MainLayout>
+              {children}
+            </MainLayout>
+          </QueryProvider>
+        </Suspense>
       </body>
     </html>
   );
