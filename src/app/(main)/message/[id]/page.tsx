@@ -1,11 +1,11 @@
 'use client'
 
 import { PurchaseModal } from '@/components';
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { SermonCard, SermonSection } from '../(components)';
 import Image from 'next/image';
 import Head from 'next/head';
-import { FaAngleDoubleRight, FaCalendar, FaCartPlus, FaDownload, FaMoneyBillAlt, FaPlay, FaPause } from 'react-icons/fa';
+import { FaAngleDoubleRight, FaCalendar, FaCartPlus, FaDownload, FaMoneyBillAlt, FaPlay } from 'react-icons/fa';
 import Link from 'next/link';
 import { Category, Message } from '@/types/messageType';
 import { CATEGORIES, MESSAGE_DATA } from '@/data/dummyData';
@@ -20,65 +20,11 @@ const MessageIndexPage = () => {
   const [categories, setCategories] = useState<Category[]>(CATEGORIES);
   const [message, setMessage] = useState<Message | null>(MESSAGE_DATA[0]);
 
-  // Audio state
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  
-  // Ref to Audio object to persist across renders
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Initialize Audio object on first render or when message changes
-  useEffect(() => {
-    if (message?.audio_url) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      const audio = new Audio(message.audio_url);
-      audioRef.current = audio;
-
-      audio.addEventListener('loadedmetadata', () => {
-        setDuration(audio.duration);
-      });
-
-      audio.addEventListener('timeupdate', () => {
-        setCurrentTime(audio.currentTime);
-      });
-
-      audio.addEventListener('ended', () => {
-        setIsPlaying(false);
-        setCurrentTime(0);
-      });
-    }
-    // Cleanup on unmount
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    }
-  }, [message]);
-
-  const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
-  // Format time as mm:ss
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
-  };
+  console.log(setDownload, setRecent, setRelated, setCategories, setMessage);
 
   const formattedTopic = message?.topic.replace(/_/g, " ");
   const ogImage = `${(message?.album_art || "").replace(/ /g, "%20")}?h=250`;
+
 
   return (
     <>
@@ -90,120 +36,136 @@ const MessageIndexPage = () => {
         <meta property="og:description" content={message?.description} />
       </Head>
 
-      <div className="flex h-full flex-col md:flex-row gap-[12px]">
-        {/* Main Content */}
-        <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
-          <div className="bg-white min-h-64 rounded-[14px] shadow overflow-hidden flex flex-col md:flex-row">
-            <div className="w-full md:w-1/3 relative h-64 md:h-64">
-              <Image
-                src={`${message?.album_art}`}
-                alt={message?.topic || ''}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <div className="p-6 flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold">{message?.topic.replace(/_/g, " ")}</h2>
-              <p className="my-3">{message?.description}</p>
-              <div className="flex items-center gap-2 flex-wrap mt-auto">
-                {categories.map((cat: Category) => (
-                  <Link 
-                    key={cat?.category_id} 
-                    href={`/categories/${cat.category_id}`} 
-                    className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 bg-gray-200`}
-                  >
-                    {cat?.name}
-                  </Link>
-                ))}
+      <>
+        <div className="flex h-full flex-col md:flex-row gap-[12px]">
+          {/* Main Content */}
+          <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
+            <div className="bg-white min-h-64 rounded-[14px] shadow overflow-hidden flex flex-col md:flex-row">
+              <div className="w-full md:w-1/3 relative h-64 md:h-64">
+                <Image
+                  src={`${message?.album_art}`}
+                  alt={message?.topic || ''}
+                  fill
+                  className="object-cover"
+                />
               </div>
 
-              {/* Actions */}
-              <div className="mt-6 flex items-center gap-[10px] text-gray-700">
-                <button
-                  onClick={togglePlay}
-                  className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
-                  aria-label={isPlaying ? "Pause sermon" : "Play sermon"}
-                >
-                  {isPlaying ? <FaPause size={18} /> : <FaPlay size={18} />}
-                </button>
-                
-                {/* Timer display */}
-                <div className="text-sm font-mono w-20 text-center select-none">
-                  {formatTime(currentTime)} / {formatTime(duration)}
+              <div className="p-6 flex-1 flex flex-col">
+                <h2 className="text-2xl font-bold">{message?.topic.replace(/_/g, " ")}</h2>
+                <p className="my-3">{message?.description}</p>
+                <div className="flex items-center gap-2 flex-wrap mt-auto">
+                  {categories.map((cat: Category) => (
+                    <Link 
+                      key={cat?.category_id} 
+                      href={`/categories/${cat.category_id}`} 
+                      className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 bg-gray-200`}
+                    >
+                      {cat?.name}
+                    </Link>
+                    
+                  ))}
                 </div>
 
-                {/* Other buttons */}
-                <button
-                  onClick={() => null}
-                  className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
-                >
-                  <FaCartPlus size={18} />
-                </button>
-                <button
-                  onClick={() => null}
-                  className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
-                >
-                  <FaMoneyBillAlt size={18} />
-                </button>
-                <button
-                  onClick={() => null}
-                  className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
-                >
-                  <FaCalendar size={18} />
-                </button>
+                {/* Actions */}
+                <div className="mt-6 flex items-center gap-[10px] text-gray-700">
+                  {false && (message?.is_free || message?.id === message?.message_id) ? (
+                    <>
+                      {/* TODO: HANDLE DOWNLOAD */}
+                      <Link
+                        href={`/download/${message?.id}`}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaDownload size={18} />
+                      </Link>
+
+                      <button
+                        onClick={() => null}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaCalendar size={18} />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => null}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaPlay size={18} />
+                      </button>
+                      <button
+                        onClick={() => null}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaCartPlus size={18} />
+                      </button>
+                      <button
+                        onClick={() => null}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaMoneyBillAlt size={18} />
+                      </button>
+                      <button
+                        onClick={() => null}
+                        className="bg-[#FF6300] hover:bg-[#e65a00] h-[48px] w-[48px] flex items-center justify-center text-white p-2 rounded-full shadow-md transition"
+                      >
+                        <FaCalendar size={18} />
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Related */}
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Related</h3>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {related.map((msg) => (
+                  // @ts-expect-error null
+                  <MessageCard key={msg.id} user={user} message={msg} />
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Related */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Related</h3>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {related.map((msg) => (
+          {/* Sidebar */}
+          <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[12px] md:px-[15px] md:w-1/4 flex flex-col gap-6">
+            <SermonSection title={
+              <div className='flex items-center gap-[5px]'>
+                <FaAngleDoubleRight />
+                Most downloaded
+              </div>
+            }>
+              {downloads.map((msg) => (
                 // @ts-expect-error null
-                <MessageCard key={msg.id} user={user} message={msg} />
+                <SermonCard key={msg.id} user={user} message={msg} />
               ))}
-            </div>
+            </SermonSection>
+
+            <SermonSection title={
+              <div className='flex items-center gap-[5px]'>
+                <FaAngleDoubleRight />
+                Recent Sermons
+              </div>
+            }>
+              {recent.map((msg) => (
+                // @ts-expect-error null
+                <SermonCard key={msg.id} user={user} message={msg} />
+              ))}
+            </SermonSection>
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[12px] md:px-[15px] md:w-1/4 flex flex-col gap-6">
-          <SermonSection title={
-            <div className='flex items-center gap-[5px]'>
-              <FaAngleDoubleRight />
-              Most downloaded
-            </div>
-          }>
-            {downloads.map((msg) => (
-              // @ts-expect-error null
-              <SermonCard key={msg.id} user={user} message={msg} />
-            ))}
-          </SermonSection>
-
-          <SermonSection title={
-            <div className='flex items-center gap-[5px]'>
-              <FaAngleDoubleRight />
-              Recent Sermons
-            </div>
-          }>
-            {recent.map((msg) => (
-              // @ts-expect-error null
-              <SermonCard key={msg.id} user={user} message={msg} />
-            ))}
-          </SermonSection>
-        </div>
-      </div>
-
-      <PurchaseModal 
-        isOpen={openModal == 'checkout'}
-        onClose={() => setOpenModal('')}
-        // @ts-expect-error null
-        userEmail={user?.email}
-        title='Instant Purchase'
-        handleNext={() => setOpenModal('')}
-      />
+        <PurchaseModal 
+          isOpen={openModal == 'checkout'}
+          onClose={() => setOpenModal('')}
+          // @ts-expect-error null
+          userEmail={user?.email}
+          title='Instant Purchase'
+          handleNext={() => setOpenModal('')}
+        />
+      </>
     </>
   )
 }
