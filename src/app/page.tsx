@@ -12,18 +12,21 @@ const MainIndexPage = () => {
    }, []);
 
   return (
-    <section className="flex flex-col w-full h-full">
-      <div className="flex h-full flex-col-reverse md:flex-row gap-[12px]">
-        <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full md:w-2/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
-          {/* @ts-expect-error-null */}
-          <MessageFeed user={user} />
-        </div>
+<section className="flex flex-col w-full h-full">
+  <div className="flex h-full flex-col-reverse md:flex-row gap-4 md:gap-6">
+    {/* Message Feed Panel */}
+    <div className="h-full flex-1 overflow-y-auto rounded-2xl bg-white shadow-md p-4 md:p-6">
+      {/* @ts-expect-error-null */}
+      <MessageFeed user={user} />
+    </div>
 
-        <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full md:w-1/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
-          <FiltersSidebar />
-        </div>
-      </div>
-    </section>
+    {/* Filters Sidebar */}
+    <aside className="h-full w-full md:max-w-sm overflow-y-auto rounded-2xl bg-white shadow-md p-4 md:p-6">
+      <FiltersSidebar />
+    </aside>
+  </div>
+</section>
+
   );
 }
 

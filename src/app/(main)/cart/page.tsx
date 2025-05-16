@@ -11,7 +11,6 @@ import { useCommonStore } from '@/store/commonStore';
 import { apiRequest } from '@/utils';
 import { MESSAGE_DATA } from '@/data/dummyData';
 
-// Define CartItem type
 export interface CartItem {
   message_id: string;
   album_art: string;
@@ -20,7 +19,6 @@ export interface CartItem {
   price: number;
 }
 
-// User type and default value (mocked)
 interface User {
   id: string;
   name: string;
@@ -41,17 +39,22 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>(MESSAGE_DATA);
   const [total, setTotal] = useState(0);
   const [openModal, setOpenModal] = useState('');
+  const [loading, setLoading] = useState(true);
   const { setRefreshCart, refreshCart } = useCommonStore((state) => state);
   const router = useRouter();
 
   const loadCart = async () => {
+    setLoading(true);
     try {
       const response = await apiRequest({ url: '/api/cart' });
-      setCartItems(response?.messages || []);
-      const sum = response?.messages?.reduce((acc: number, item: CartItem) => acc + item.price, 0);
+      const items = response?.messages || [];
+      setCartItems(items);
+      const sum = items.reduce((acc: number, item: CartItem) => acc + item.price, 0);
       setTotal(response?.total || sum || 0);
     } catch (error) {
       console.error('Error loading cart:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,59 +73,122 @@ export default function CartPage() {
     }
   };
 
+  // Simple shimmer loading row
+  const LoadingRow = () => (
+    <tr className="animate-pulse">
+      <td className="p-4">
+        <div className="h-16 w-48 bg-gray-300 rounded-md" />
+      </td>
+      <td className="p-4">
+        <div className="h-6 w-20 bg-gray-300 rounded-md" />
+      </td>
+      <td className="p-4">
+        <div className="h-6 w-6 bg-gray-300 rounded-full" />
+      </td>
+    </tr>
+  );
+
   return (
-    <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full container mx-auto px-4 py-10">
-      <h2 className="font-[500] border-b pb-[10px] border-gray-300 w-full flex items-center text-[#0D0D12] text-f18">
+    <div className="container mx-auto px-4 py-10 w-full h-full overflow-y-auto bg-[#F9FAFB] rounded-[10px]">
+      <h2 className="text-xl font-semibold text-[#0D0D12] border-b border-gray-300 pb-3 mb-4">
         Cart
       </h2>
 
-      <div className="bg-white p-3 rounded-[8px] mt-[10px] shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-f14 text-left">
-            <thead className="uppercase bg-gray-100 text-gray-500">
+      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 min-h-[200px]">
+        {loading ? (
+          <table className="min-w-full text-sm">
+            <thead className="bg-gray-100 text-gray-600 text-left uppercase">
               <tr>
-                <th className="p-3">Item</th>
-                <th className="p-3">Price</th>
-                <th className="p-3">Actions</th>
+                <th className="p-4">Item</th>
+                <th className="p-4">Price</th>
+                <th className="p-4">Action</th>
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item, index) => (
-                <tr key={item.message_id} className="border-b border-[#E4E7EC]">
-                  <td className="min-w-[300px] p-3 flex items-center gap-4">
-                    <Image
-                      src={item.album_art}
-                      alt={item.topic}
-                      width={70}
-                      height={70}
-                      className="rounded-[8px] shadow-sm"
-                    />
-                    <div className="flex flex-col gap-[4px]">
-                      <h5 className="text-f16 font-medium">{item.topic.replace(/_/g, ' ')}</h5>
-                      <span className="text-gray-500 text-f14">{item.description}</span>
-                    </div>
-                  </td>
-                  <td className="min-w-[100px] p-2 text-f15 font-semibold">₦ {item.price.toLocaleString()}</td>
-                  <td className="min-w-[100px] p-3 text-f14">
-                    <button onClick={() => removeFromCart(index, item.message_id)}>
-                      <FaTrash className="cursor-pointer text-red-500 hover:text-red-700" />
-                    </button>
-                  </td>
-                </tr>
+              {[...Array(4)].map((_, i) => (
+                <LoadingRow key={i} />
               ))}
             </tbody>
-            <tfoot>
-              <tr className="bg-gray-100">
-                <th className="p-3 text-gray-500">Total</th>
-                <th className="p-3 text-lg text-green-700">₦ {total.toLocaleString()}</th>
-                <th></th>
-              </tr>
-            </tfoot>
           </table>
-        </div>
+        ) : cartItems.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100 text-gray-600 text-left uppercase">
+                <tr>
+                  <th className="p-4">Item</th>
+                  <th className="p-4">Price</th>
+                  <th className="p-4">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item, index) => (
+                  <tr key={item.message_id} className="border-b last:border-b-0 border-gray-200">
+                    <td className="p-4 min-w-[300px]">
+                      <div className="flex gap-4 items-start">
+                        <Image
+                          src={item.album_art}
+                          alt={item.topic}
+                          width={64}
+                          height={64}
+                          className="rounded-md shadow-sm object-cover"
+                        />
+                        <div>
+                          <h3 className="text-base font-medium text-gray-900 capitalize">
+                            {item.topic.replace(/_/g, ' ')}
+                          </h3>
+                          <p className="text-sm text-gray-500">{item.description}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 font-semibold text-gray-800">
+                      ₦ {item.price.toLocaleString()}
+                    </td>
+                    <td className="p-4 flex items-center justify-center">
+                      <button
+                        onClick={() => removeFromCart(index, item.message_id)}
+                        className="text-red-500 hover:text-red-600 transition"
+                        aria-label={`Remove ${item.topic} from cart`}
+                      >
+                        <FaTrash size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="bg-gray-50 border-t border-gray-200">
+                  <td className="p-4 font-medium text-gray-600">Total</td>
+                  <td className="p-4 text-green-600 font-bold text-lg">₦ {total.toLocaleString()}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-gray-500 space-y-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-20 h-20 text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m5-9l2 9"
+              />
+            </svg>
+            <p className="text-lg font-medium">Your cart is empty</p>
+            <p className="text-sm max-w-xs text-center">
+              Looks like you haven&apos;t added anything to your cart yet.
+            </p>
+          </div>
+        )}
 
-        {cartItems.length > 0 && (
-          <div className="mt-5 flex justify-end">
+        {cartItems.length > 0 && !loading && (
+          <div className="mt-6 flex justify-end">
             <Button
               label="Proceed to Checkout"
               onClick={() => setOpenModal('checkout')}

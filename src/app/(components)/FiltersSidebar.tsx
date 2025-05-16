@@ -2,7 +2,7 @@ import { InputElement } from "@/components/forms/InputElement";
 import { CATEGORIES, MONTHS, SERVICES, SPEAKERS, YEARS } from "@/data/dummyData";
 import Link from "next/link";
 import { useState } from "react";
-import { FaAngleDoubleRight } from "react-icons/fa";
+import { FaAngleDoubleRight, FaTicketAlt } from "react-icons/fa";
 
 export const FiltersSidebar = () => {
   const [speakerSearch, setSpeakerSearch] = useState("");
@@ -13,155 +13,166 @@ export const FiltersSidebar = () => {
   const [selectedServices, setSelectedServices] = useState<Record<string, boolean>>({});
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  // const [categories, setCategories] = useState<CategoryProps[]>([]);
 
   const toggleItem = (
     id: string | number,
-    // eslint-disable-next-line
     setFn: (val: any) => void,
     state: Record<string, boolean>
   ) => {
     setFn({ ...state, [id]: !state[id] });
   };
 
+  const TagButton = ({
+    selected,
+    onClick,
+    children,
+  }: {
+    selected: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+  }) => (
+    <button
+      onClick={onClick}
+      style={{fontSize: 14}}
+      className={`transition-all text-sm px-3 py-1.5 rounded-full border border-gray-100 ${
+        selected
+          ? "bg-orange-500 text-white border-orange-500"
+          : "bg-gray-100 text-gray-800 hover:bg-orange-100 hover:text-orange-600 hover:border-orange-300"
+      }`}
+    >
+      {children}
+    </button>
+  );
+
+  const FilterSection = ({
+    title,
+    children,
+  }: {
+    title: string;
+    children: React.ReactNode;
+  }) => (
+    <div className="flex flex-col gap-2">
+      <h3 className="text-[15px] font-semibold text-gray-900">{title}</h3>
+      {children}
+    </div>
+  );
+
   return (
-    <aside className="flex flex-col gap-[30px]">
-      {/* Speakers Filter */}
-      <div className="flex flex-col gap-[8px]">
-        <h3 className="text-f18 text-[#0D0D12] font-[600]">Search Speakers</h3>
-        <InputElement 
+    <aside className="flex flex-col gap-8 p-4 bg-white rounded-xl shadow-sm border border-gray-200">
+      <FilterSection title="Search Speakers">
+        <InputElement
           value={speakerSearch}
-          name='speakers'
-          type='text'
+          name="speakers"
+          type="text"
           onChangeEvent={(e) => setSpeakerSearch(e.target.value)}
-          placeholder='Search Speakers'
+          placeholder="Search Speakers"
         />
-
-        <div className="flex flex-wrap gap-2">
-          {SPEAKERS
-            .filter((s) =>
-              s.name.toLowerCase().includes(speakerSearch.toLowerCase())
-            )
-            .map((s) => (
-              <button
-                key={s.id}
-                onClick={() =>
-                  toggleItem(s.id, setSelectedSpeakers, selectedSpeakers)
-                }
-                className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 ${
-                  selectedSpeakers[s.id] ? "bg-[#FF6300] text-white" : "bg-gray-200"
-                }`}
-              >
-                {s.title} {s.name}
-              </button>
-            ))}
-        </div>
-      </div>
-
-      {/* Services Filter */}
-      <div className="flex flex-col gap-[8px]">
-        <h3 className="text-f18 text-[#0D0D12] font-[600]">Services</h3>
-        <InputElement 
-          value={serviceSearch}
-          name='services'
-          type='text'
-          onChangeEvent={(e) => setServiceSearch(e.target.value)}
-          placeholder='Search Services'
-        />
-        <div className="flex flex-wrap gap-2">
-          {SERVICES.map((s) => (
-            <button
+        <div className="flex flex-wrap gap-2 mt-2">
+          {SPEAKERS.filter((s) =>
+            s.name.toLowerCase().includes(speakerSearch.toLowerCase())
+          ).map((s) => (
+            <TagButton
               key={s.id}
-              onClick={() => toggleItem(s.id, setSelectedServices, selectedServices)}
-              className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 ${
-                selectedServices[s.id] ? "bg-[#FF6300] text-white" : "bg-gray-200"
-              }`}
+              selected={!!selectedSpeakers[s.id]}
+              onClick={() => toggleItem(s.id, setSelectedSpeakers, selectedSpeakers)}
             >
-              {s.name}
-            </button>
+              {s.title} {s.name}
+            </TagButton>
           ))}
         </div>
-      </div>
+      </FilterSection>
 
-      {/* Months Filter */}
-      <div className="flex flex-col gap-[8px]">
-        <h3 className="text-f18 text-[#0D0D12] font-[600]">Month</h3>
-        <InputElement 
-          value={monthSearch}
-          name='months'
-          type='text'
-          onChangeEvent={(e) => setMonthSearch(e.target.value)}
-          placeholder='Search Months'
+      <FilterSection title="Services">
+        <InputElement
+          value={serviceSearch}
+          name="services"
+          type="text"
+          onChangeEvent={(e) => setServiceSearch(e.target.value)}
+          placeholder="Search Services"
         />
-        <div className="flex flex-wrap gap-2">
-          {MONTHS.map((month) => (
-            <button
+        <div className="flex flex-wrap gap-2 mt-2">
+          {SERVICES.filter((s) =>
+            s.name.toLowerCase().includes(serviceSearch.toLowerCase())
+          ).map((s) => (
+            <TagButton
+              key={s.id}
+              selected={!!selectedServices[s.id]}
+              onClick={() => toggleItem(s.id, setSelectedServices, selectedServices)}
+            >
+              {s.name}
+            </TagButton>
+          ))}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Month">
+        <InputElement
+          value={monthSearch}
+          name="months"
+          type="text"
+          onChangeEvent={(e) => setMonthSearch(e.target.value)}
+          placeholder="Search Months"
+        />
+        <div className="flex flex-wrap gap-2 mt-2">
+          {MONTHS.filter((m) =>
+            m.toLowerCase().includes(monthSearch.toLowerCase())
+          ).map((month) => (
+            <TagButton
               key={month}
+              selected={selectedMonth === month}
               onClick={() =>
                 setSelectedMonth((prev) => (prev === month ? null : month))
               }
-              className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 ${
-                selectedMonth === month ? "bg-[#FF6300] text-white" : "bg-gray-200"
-              }`}
             >
               {month}
-            </button>
+            </TagButton>
           ))}
         </div>
-      </div>
+      </FilterSection>
 
-      {/* Years Filter */}
-      <div className="flex flex-col gap-[8px]">
-        <h3 className="text-f18 text-[#0D0D12] font-[600]">Year</h3>
-        <InputElement 
+      <FilterSection title="Year">
+        <InputElement
           value={yearSearch}
-          name='years'
-          type='text'
+          name="years"
+          type="text"
           onChangeEvent={(e) => setYearSearch(e.target.value)}
-          placeholder='Search Years'
+          placeholder="Search Years"
         />
-        <div className="flex flex-wrap gap-2">
-          {YEARS.map((year) => (
-            <button
+        <div className="flex flex-wrap gap-2 mt-2">
+          {YEARS.filter((y) => y.toString().includes(yearSearch)).map((year) => (
+            <TagButton
               key={year}
+              selected={selectedYear === year}
               onClick={() =>
                 setSelectedYear((prev) => (prev === year ? null : year))
               }
-              className={`hover:border-orange-400 hover:text-orange-500 border-transparent border hover:bg-orange-50 py-[6px] px-[12px] cursor-pointer rounded-full text-f14 ${
-                selectedYear === year ? "bg-[#FF6300] text-white" : "bg-gray-200"
-              }`}
             >
               {year}
-            </button>
+            </TagButton>
           ))}
         </div>
-      </div>
+      </FilterSection>
 
-      <div className="flex flex-col gap-[8px]">
-        <h3 className="text-f18 text-[#0D0D12] font-[600]">Categories</h3>
-        <div className="flex flex-col gap-[10px]">
-          {CATEGORIES.map((category: CategoryProps, index: number) => (
-            <div
-              key={category.id || index}
-              className="cursor-pointer hover:border-orange-400 border-transparent border group rounded-lg bg-white shadow px-2 py-3 hover:bg-orange-50 transition"
+      <FilterSection title="Categories">
+        <div className="flex flex-col gap-2">
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category.id}
+              href={`/categories/${category.slug || category.id}`}
+              className="flex items-center gap-2 text-[15px] font-medium text-gray-800 hover:text-orange-500 transition"
             >
-              <Link
-                href={`/categories/${category.slug || category.id}`}
-                className="text-gray-800 group-hover:text-orange-500 font-semibold flex items-center gap-x-2"
-              >
-                <FaAngleDoubleRight />
-                <span>{category.name}</span>
-              </Link>
-            </div>
+              <FaAngleDoubleRight className="text-orange-400" />
+              <span>{category.name}</span>
+            </Link>
           ))}
         </div>
-      </div>
+      </FilterSection>
     </aside>
   );
-}
+};
 
-export interface CategoryProps { 
-  id: string; 
-  slug: string; 
-  name: string; 
+export interface CategoryProps {
+  id: string;
+  slug: string;
+  name: string;
 }

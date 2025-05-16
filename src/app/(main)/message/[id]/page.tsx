@@ -39,7 +39,7 @@ const MessageIndexPage = () => {
       <>
         <div className="flex h-full flex-col md:flex-row gap-[12px]">
           {/* Main Content */}
-          <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
+          <div className="h-full overflow-y-auto rounded-[10px] bg-[#FFFFF] w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
             <div className="bg-white min-h-64 rounded-[14px] shadow overflow-hidden flex flex-col md:flex-row">
               <div className="w-full md:w-1/3 relative h-64 md:h-64">
                 <Image
@@ -130,31 +130,36 @@ const MessageIndexPage = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full py-[12px] md:py-[15px] px-[12px] md:px-[15px] md:w-1/4 flex flex-col gap-6">
-            <SermonSection title={
-              <div className='flex items-center gap-[5px]'>
-                <FaAngleDoubleRight />
-                Most downloaded
-              </div>
-            }>
-              {downloads.map((msg) => (
-                // @ts-expect-error null
-                <SermonCard key={msg.id} user={user} message={msg} />
-              ))}
-            </SermonSection>
+          <div className="h-full overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-sm w-full py-4 px-4 md:py-5 md:px-5 md:w-1/4 flex flex-col gap-6">
+  <SermonSection
+    title={
+      <div className="flex items-center gap-2 text-white-100 font-medium">
+        <FaAngleDoubleRight className="text-orange-500" />
+        Most downloaded
+      </div>
+    }
+  >
+    {downloads.map((msg) => (
+      // @ts-expect-error null
+      <SermonCard key={msg.id} user={user} message={msg} />
+    ))}
+  </SermonSection>
 
-            <SermonSection title={
-              <div className='flex items-center gap-[5px]'>
-                <FaAngleDoubleRight />
-                Recent Sermons
-              </div>
-            }>
-              {recent.map((msg) => (
-                // @ts-expect-error null
-                <SermonCard key={msg.id} user={user} message={msg} />
-              ))}
-            </SermonSection>
-          </div>
+  <SermonSection
+    title={
+      <div className="flex items-center gap-2 text-white-100 font-medium">
+        <FaAngleDoubleRight className="text-orange-500" />
+        Recent Sermons
+      </div>
+    }
+  >
+    {recent.map((msg) => (
+      // @ts-expect-error null
+      <SermonCard key={msg.id} user={user} message={msg} />
+    ))}
+  </SermonSection>
+</div>
+
         </div>
 
         <PurchaseModal 
