@@ -1,13 +1,18 @@
 'use client'
 
 import { Footer, Navbar } from '@/components';
+import { User } from '@/types';
 import React, { ReactNode, useEffect } from 'react'
 
 const MainLayout = ({
   children
 } : MainLayoutProps) => {
   // TODO: GET USER
-  const user = undefined;
+  const user: User = {
+    email: 'example@gmail.com',
+    is_administrator: false,
+    is_super_admin: false
+  };
 
   useEffect(() => {
     // LOAD Tawk.to CHAT SCRIPT DYNAMICALLY

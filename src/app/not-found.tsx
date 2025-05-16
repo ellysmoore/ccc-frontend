@@ -1,13 +1,11 @@
 "use client";
 
-import React, { Suspense } from "react";
-import NotFoundContent from "./NotFoundContent";
+import React from "react";
+import NotFoundContent from "./(components)/NotFoundContent";
 
 const NotFoundPage = () => {
   return (
-    // <Suspense fallback={null}>
-      <NotFoundContent />
-    // </Suspense>
+    <NotFoundContent />
   );
 };
 

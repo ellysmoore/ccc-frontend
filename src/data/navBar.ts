@@ -39,13 +39,13 @@ export const MENU_DATA = [
     label: 'Login',
     path: '',
     slug: 'login',
-    showFor: ['ADMIN', 'USER', 'NON_USER'],
+    showFor: ['NON_USER'],
   },
   {
     id: 7,
     label: 'Sign Up',
     path: '',
     slug: 'signup',
-    showFor: ['ADMIN', 'USER', 'NON_USER'],
+    showFor: ['NON_USER'],
   },
 ];

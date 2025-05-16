@@ -1,3 +1,26 @@
+export const USER = {
+  id: "1",
+  name: "Guest",
+  email: "guest@example.com",
+  is_administrator: false,
+  is_super_admin: false,
+}
+
+export const PLAYLIST_DATA = [
+  {
+    id: 'one',
+    name: 'My first playlist', 
+    album_art: '/images/20181014_B_Praise_And_Serve.mp3.jpg',
+    description: 'April easter 2025 ',
+  },
+  {
+    id: 'two',
+    name: 'My second playlist', 
+    album_art: '/images/20190725_L_Spirit_Soul_And_Body.mp3.jpg',
+    description: 'April easter 2025 ',
+  }
+];
+
 export const MESSAGE_DATA = [
   {
     id: 'one',
