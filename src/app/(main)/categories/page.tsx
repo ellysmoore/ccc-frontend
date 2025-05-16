@@ -42,7 +42,7 @@ const CategoriesIndexPage = () => {
 
   return (
     <div className="flex h-full flex-col md:flex-row gap-[12px] mb-2">
-      <div className="h-full gap-6 flex flex-col overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full md:w-1/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
+      <div className="h-full gap-6 flex flex-col overflow-y-auto rounded-[10px] bg-[#FFFFFF] w-full md:w-1/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
         <SermonSection title={
           <div className='flex items-center gap-[5px]'>
             <FaAngleDoubleRight />
@@ -66,7 +66,7 @@ const CategoriesIndexPage = () => {
         </SermonSection>
       </div>
 
-      <div className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full md:w-2/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
+      <div className="h-full overflow-y-auto rounded-[10px] bg-[#FFFFF] w-full md:w-2/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
         <section className="mb-4">
           <div className="shadow-sm rounded-[12px] relative h-[230px] w-full">
             <Image 
