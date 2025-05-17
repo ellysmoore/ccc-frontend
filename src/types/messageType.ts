@@ -1,4 +1,5 @@
 export interface Message {
+  speaker: ReactNode;
   id: string;
   topic: string;
   album_art: string;

@@ -4,7 +4,7 @@ import { MessageCard } from '@/app/(components)/MessageCard';
 import { Pagination, PurchaseModal } from '@/components';
 import { Message } from '@/types/messageType';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const CategoryMainSection = ({
@@ -21,6 +21,12 @@ export const CategoryMainSection = ({
   const [sortBy, setSortBy] = useState('Sort by Date (Desc)');
   const [openModal, setOpenModal] = useState('');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
+
+  useEffect(() => {
+    setPages(1);
+    setPage(1);
+  }, [])
+  
 
   const sorts = [
     { key: 'date_desc', title: 'Sort by Date (Desc)' },
