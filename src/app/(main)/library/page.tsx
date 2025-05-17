@@ -5,25 +5,11 @@ import { Message } from '@/types/messageType';
 import { Loader } from '@/components/Loader';
 import { Button } from '@/components/Button';
 import { MessageCard } from '@/app/(components)/MessageCard';
-import { MESSAGE_DATA } from '@/data/dummyData';
+import { MESSAGE_DATA, USER } from '@/data/dummyData';
+import { User } from '@/types';
 
 const LibraryIndexPage = () => {
-  // const user = null;
-  interface User {
-    id: string;
-    name: string;
-    email: string;
-    is_administrator: boolean;
-    is_super_admin: boolean;
-  };
-  
-  const user: User = {
-    id: "1", // Replace with appropriate default values
-    name: "Guest",
-    email: "guest@example.com",
-    is_administrator: false,
-    is_super_admin: false,
-  };
+  const user: User = USER;
   const [messages, setMessages] = useState<Message[]>(MESSAGE_DATA); 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
