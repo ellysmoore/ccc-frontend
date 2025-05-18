@@ -5,6 +5,7 @@ import MainLayout from "@/layouts/MainLayout";
 import { QueryProvider } from "@/providers";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
+import 'react-tooltip/dist/react-tooltip.css'
 
 const roboto = Roboto({
   subsets: ["latin"],

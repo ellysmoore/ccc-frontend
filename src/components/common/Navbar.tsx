@@ -1,4 +1,9 @@
-import { FaWallet, FaCartPlus, FaTicketAlt } from "react-icons/fa";
+import {
+  FaWallet,
+  FaCartPlus,
+  FaTicketAlt,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -13,6 +18,7 @@ import { MENU_DATA } from "@/data/navBar";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { PasswordResetModal } from "../PasswordResetModal";
+import { Tooltip } from "react-tooltip";
 
 export const Navbar = ({ user }: { user?: User }) => {
   const [openModal, setOpenModal] = useState("");
@@ -89,6 +95,8 @@ export const Navbar = ({ user }: { user?: User }) => {
 
           return link?.path ? (
             <Link
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Hello world!"
               key={link?.id}
               href={link?.path}
               className={`text-f16 lg:text-f15 relative hover:!bg-[#F6F8FA] lg:border-[2px] !border-[#F4F7F8] hover:!text-[#0D0D12] rounded-full cursor-pointer w-full lg:w-fit flex items-center lg:gap-[8px] py-[8px] lg:py-[8px] px-[18px] lg:px-[12px]
@@ -173,36 +181,17 @@ export const Navbar = ({ user }: { user?: User }) => {
                   <FaTicketAlt
                     size={16}
                     className="text-[#0D0D12] hover:text-[#9a9ab3]"
+                    data-tooltip-id="e-ticket"
+                    data-tooltip-content="View eticket"
                   />
                 </Link>
-
-                {user ? (
-                  <>
-                    <button
-                      onClick={handleLogout}
-                      className="font-[600] text-f14 md:text-f15 cursor-pointer text-[#0D0D12] hover:text-[#0D0D12]"
-                    >
-                      Logout
-                    </button>
-
-                    <button
-                      className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
-                      onClick={() => handleModal("fundWallet")}
-                    >
-                      <FaWallet
-                        size={16}
-                        className="text-[#0D0D12] hover:text-[#0D0D12]"
-                      />
-                      <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
-                        {walletBalance}
-                      </div>
-                    </button>
-                  </>
-                ) : null}
+                <Tooltip id="e-ticket" place="top" />
 
                 <Link
                   href="/cart"
                   className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                  data-tooltip-id="view-cart"
+                  data-tooltip-content="View Cart"
                 >
                   <FaCartPlus
                     size={16}
@@ -212,6 +201,47 @@ export const Navbar = ({ user }: { user?: User }) => {
                     {cartCount}
                   </div>
                 </Link>
+                <Tooltip id="view-cart" place="top" />
+
+                {user ? (
+                  <>
+                    <button
+                      className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                      onClick={() => handleModal("fundWallet")}
+                      data-tooltip-id="wallet-balance"
+                      data-tooltip-content="Wallet Balance"
+                    >
+                      <FaWallet
+                        size={16}
+                        className="text-[#0D0D12] hover:text-[#0D0D12]"
+                      />
+                      <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
+                        {walletBalance || "0"}
+                      </div>
+                    </button>
+                    <Tooltip id="wallet-balance" place="top" />
+
+                    {/* <button
+                      onClick={handleLogout}
+                      className="font-[600] text-f14 md:text-f15 cursor-pointer text-[#0D0D12] hover:text-[#0D0D12]"
+                    >
+                      Logout
+                    </button> */}
+
+                    <button
+                      className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                      onClick={handleLogout}
+                      data-tooltip-id="logout"
+                      data-tooltip-content="Logout"
+                    >
+                      <FaSignOutAlt
+                        size={16}
+                        className="text-[#0D0D12] hover:text-[#0D0D12]"
+                      />
+                    </button>
+                    <Tooltip id="logout" place="top" />
+                  </>
+                ) : null}
               </div>
             </section>
           </div>

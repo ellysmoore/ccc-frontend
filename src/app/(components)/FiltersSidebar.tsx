@@ -1,22 +1,32 @@
 import { InputElement } from "@/components/forms/InputElement";
-import { CATEGORIES, MONTHS, SERVICES, SPEAKERS, YEARS } from "@/data/dummyData";
+import {
+  CATEGORIES,
+  MONTHS,
+  SERVICES,
+  SPEAKERS,
+  YEARS,
+} from "@/data/dummyData";
 import Link from "next/link";
 import { useState } from "react";
-import { FaAngleDoubleRight, FaTicketAlt } from "react-icons/fa";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 export const FiltersSidebar = () => {
   const [speakerSearch, setSpeakerSearch] = useState("");
   const [serviceSearch, setServiceSearch] = useState("");
   const [monthSearch, setMonthSearch] = useState("");
   const [yearSearch, setYearSearch] = useState("");
-  const [selectedSpeakers, setSelectedSpeakers] = useState<Record<string, boolean>>({});
-  const [selectedServices, setSelectedServices] = useState<Record<string, boolean>>({});
+  const [selectedSpeakers, setSelectedSpeakers] = useState<
+    Record<string, boolean>
+  >({});
+  const [selectedServices, setSelectedServices] = useState<
+    Record<string, boolean>
+  >({});
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
   const toggleItem = (
     id: string | number,
-    setFn: (val: any) => void,
+    setFn: (val: unknown) => void,
     state: Record<string, boolean>
   ) => {
     setFn({ ...state, [id]: !state[id] });
@@ -33,7 +43,7 @@ export const FiltersSidebar = () => {
   }) => (
     <button
       onClick={onClick}
-      style={{fontSize: 14}}
+      style={{ fontSize: 14 }}
       className={`transition-all text-sm px-3 py-1.5 rounded-full border border-gray-100 ${
         selected
           ? "bg-orange-500 text-white border-orange-500"
@@ -59,7 +69,9 @@ export const FiltersSidebar = () => {
 
   return (
     <aside className="flex flex-col gap-8 p-4 bg-white rounded-xl shadow-sm border border-gray-200">
-      <FilterSection title="Search Speakers">
+      <FilterSection
+        title={""} //  title="Search Speakers"
+      >
         <InputElement
           value={speakerSearch}
           name="speakers"
@@ -74,7 +86,9 @@ export const FiltersSidebar = () => {
             <TagButton
               key={s.id}
               selected={!!selectedSpeakers[s.id]}
-              onClick={() => toggleItem(s.id, setSelectedSpeakers, selectedSpeakers)}
+              onClick={() =>
+                toggleItem(s.id, setSelectedSpeakers, selectedSpeakers)
+              }
             >
               {s.title} {s.name}
             </TagButton>
@@ -82,7 +96,7 @@ export const FiltersSidebar = () => {
         </div>
       </FilterSection>
 
-      <FilterSection title="Services">
+      <FilterSection title="">
         <InputElement
           value={serviceSearch}
           name="services"
@@ -97,7 +111,9 @@ export const FiltersSidebar = () => {
             <TagButton
               key={s.id}
               selected={!!selectedServices[s.id]}
-              onClick={() => toggleItem(s.id, setSelectedServices, selectedServices)}
+              onClick={() =>
+                toggleItem(s.id, setSelectedServices, selectedServices)
+              }
             >
               {s.name}
             </TagButton>
@@ -105,7 +121,7 @@ export const FiltersSidebar = () => {
         </div>
       </FilterSection>
 
-      <FilterSection title="Month">
+      <FilterSection title="">
         <InputElement
           value={monthSearch}
           name="months"
@@ -130,7 +146,7 @@ export const FiltersSidebar = () => {
         </div>
       </FilterSection>
 
-      <FilterSection title="Year">
+      <FilterSection title="">
         <InputElement
           value={yearSearch}
           name="years"
@@ -139,21 +155,23 @@ export const FiltersSidebar = () => {
           placeholder="Search Years"
         />
         <div className="flex flex-wrap gap-2 mt-2">
-          {YEARS.filter((y) => y.toString().includes(yearSearch)).map((year) => (
-            <TagButton
-              key={year}
-              selected={selectedYear === year}
-              onClick={() =>
-                setSelectedYear((prev) => (prev === year ? null : year))
-              }
-            >
-              {year}
-            </TagButton>
-          ))}
+          {YEARS.filter((y) => y.toString().includes(yearSearch)).map(
+            (year) => (
+              <TagButton
+                key={year}
+                selected={selectedYear === year}
+                onClick={() =>
+                  setSelectedYear((prev) => (prev === year ? null : year))
+                }
+              >
+                {year}
+              </TagButton>
+            )
+          )}
         </div>
       </FilterSection>
 
-      <FilterSection title="Categories">
+      <FilterSection title="">
         <div className="flex flex-col gap-2">
           {CATEGORIES.map((category) => (
             <Link
