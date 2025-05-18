@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 export interface Message {
-  speaker: ReactNode;
+  speaker?: ReactNode;
   id: string;
   topic: string;
   album_art: string;

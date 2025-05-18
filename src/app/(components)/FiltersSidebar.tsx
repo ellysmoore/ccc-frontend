@@ -26,7 +26,7 @@ export const FiltersSidebar = () => {
 
   const toggleItem = (
     id: string | number,
-    setFn: (val: unknown) => void,
+    setFn: (val: any) => void,
     state: Record<string, boolean>
   ) => {
     setFn({ ...state, [id]: !state[id] });
