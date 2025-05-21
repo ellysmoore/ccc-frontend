@@ -21,7 +21,7 @@ export default function SpeakersPage() {
   const [showModal, setShowModal] = useState('');
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
-  const [batches, setSpeakers] = useState([
+  const [batches, setBatches] = useState([
     {
       id: "1",
       batch_no: "1",
