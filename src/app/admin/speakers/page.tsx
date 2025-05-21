@@ -3,7 +3,7 @@
 import { Pagination } from "@/components";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrash, FaPenAlt } from "react-icons/fa";
 
