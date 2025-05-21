@@ -16,6 +16,7 @@ const TextareaElement: React.FC<TextareaElementProps> = ({
   invalid,
   value,
   onChangeValue,
+  onChangeEvent,
   rows,
   hint,
 }) => {
@@ -23,6 +24,7 @@ const TextareaElement: React.FC<TextareaElementProps> = ({
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (onChangeValue) onChangeValue(e.target.value);
+    if (onChangeEvent) onChangeEvent(e);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -103,6 +105,7 @@ export interface TextareaElementProps {
   fieldClassName?: string;
   invalid?: boolean;
   value: string;
+  onChangeEvent?: (value: ChangeEvent<HTMLTextAreaElement>) => void;
   onChangeValue?: Dispatch<SetStateAction<string>> | ((value: string) => void);
   hint?: string;
   rows?: number;

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto /*, Fira_Sans_Condensed*/ } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import MainLayout from "@/layouts/MainLayout";
 import { QueryProvider } from "@/providers";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+export default function RootIndexLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -38,9 +39,10 @@ export default function RootLayout({
           }
         >
           <QueryProvider>
-            <MainLayout>
+            <ToastContainer autoClose={5000} position="top-right" closeOnClick />
+            <div className='w-full h-full'>
               {children}
-            </MainLayout>
+            </div>
           </QueryProvider>
         </Suspense>
       </body>
