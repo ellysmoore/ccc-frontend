@@ -26,6 +26,7 @@ export const FiltersSidebar = () => {
 
   const toggleItem = (
     id: string | number,
+    // eslint-disable-next-line
     setFn: (val: any) => void,
     state: Record<string, boolean>
   ) => {
