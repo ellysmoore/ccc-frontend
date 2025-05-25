@@ -80,10 +80,10 @@ export const SearchBar = ({
         placeholder={placeholder || "Search"}
         type={"text"}
         autoComplete="off"
-        inputClassName="!text-f14"
+        inputClassName="!py-[12px] !text-f14"
         name={name || "search"}
         readOnly={readOnly}
-        fieldClassName="!bg-[#F8FAFB]"
+        fieldClassName="!bg-[#FFF]"
         leftIcon={
           <svg
             className="min-w-[21px] pointer-events-none"

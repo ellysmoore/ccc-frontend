@@ -1,7 +1,10 @@
 'use client'
 
 import { Pagination } from "@/components";
+import { Button } from "@/components/Button";
+import Link from "next/link";
 import { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
 // type Ticket = {
 //   pin: string;
@@ -36,48 +39,64 @@ export default function TicketsPage() {
 
   return (
     <>
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Tickets
-          </h1>
+      <div className="lg:px-6">
+        <section className="mb-4 flex md:flex-row flex-col items-center gap-[20px]">
+          <div className="flex items-center gap-[20px]">
+            <Link
+              className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+              href={'/admin/tickets'}
+            >
+              <FaChevronLeft size={13} />
+            </Link>
 
-          <button
+            <h1 className="!text-2xl font-semibold text-[#222]">
+              Tickets
+            </h1>
+          </div>
+
+          <Button
             onClick={handleExport}
-            className="mt-2 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-700"
-          >
-            Export Tickets
-          </button>
-        </div>
+            containerClassName="!w-fit"
+            label={
+              <div className="w-fit flex items-center gap-[5px]">
+                Export Tickets
+              </div>
+            }
+          />
+        </section>
 
-        <div className="overflow-x-auto bg-white shadow rounded-lg">
-          <table className="w-full table-auto text-sm text-left text-gray-700">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2">Serial</th>
-                <th className="px-4 py-2">PIN</th>
-                <th className="px-4 py-2">Credit</th>
-                <th className="px-4 py-2">Usage</th>
-                <th className="px-4 py-2">Time Used</th>
-                <th className="px-4 py-2">Created</th>
+        <div className='w-full flex flex-col'>
+          <div className='w-full h-full bg-white rounded-[12px] border border-[#D9D9D9] mt-4'>
+            <div className='border-b border-[#D9D9D9] relative min-h-[120px] !overflow-x-auto w-full'>
+              <table className="min-w-max w-full">
+                <thead>
+                  <tr className='border-b border-[#D9D9D9]'>
+                    <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>Serial</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>PIN</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Credit</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Usage</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Time Used</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Created</th>
               </tr>
             </thead>
             <tbody>
               {tickets.map((ticket, index) => (
                 <tr
                   key={index}
-                  className="border-t hover:bg-gray-50 transition-colors"
-                >
-                  <td className="px-4 py-2">{locals?.batch_no}</td>
-                  <td className="px-4 py-2">{ticket.pin}</td>
-                  <td className="px-4 py-2">{ticket.credit}</td>
-                  <td className="px-4 py-2">{ticket.is_used ? "Used" : "Unused"}</td>
-                  <td className="px-4 py-2">{ticket.time_used || "—"}</td>
-                  <td className="px-4 py-2">{ticket.created}</td>
+                  className='border-b border-[#F5F5F5] smooth'
+                    >
+                      <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{locals?.batch_no}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.pin}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.credit}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.is_used ? "Used" : "Unused"}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.time_used || "—"}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.created}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        </div>
         </div>
 
         <Pagination 

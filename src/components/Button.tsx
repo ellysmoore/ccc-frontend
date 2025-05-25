@@ -33,6 +33,8 @@ const Button: React.FC<ButtonProps> = ({
           ? 'bg-gray-200 text-gray-700'
           : variant === 'outlined'
             ? 'border border-gray-300 text-gray-700'
+            : variant === 'primary-outlined'
+            ? 'border border-orange-600 text-orange-600'
             : variant === 'danger'
               ? 'bg-red-500 text-white'
               : variant === 'dashed'
@@ -84,7 +86,7 @@ export interface ButtonProps {
   download?: boolean;
   loading?: boolean;
   href?: string;
-  variant?: 'default' | 'outlined' | 'muted' | 'danger' | 'dashed';
+  variant?: 'default' | 'outlined' | 'muted' | 'danger' | 'dashed' | 'primary-outlined';
   containerClassName?: string;
   labelClassName?: string;
 }

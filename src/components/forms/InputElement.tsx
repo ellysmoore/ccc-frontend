@@ -63,7 +63,7 @@ const InputElement: React.FC<InputElementProps> = ({
         className={`cursor-text relative border flex items-center justify-between w-full
           rounded-full gap-[8px] px-[14px]
           ${disabled ? 'bg-[#f9fafb]' : 'bg-white'}
-          ${isFocused ? 'border-[#0D0D12]' : invalid ? 'border-[#d92d20]' : 'border-[#d0d5dd]'}
+          ${isFocused ? 'border-orange-600' : invalid ? 'border-[#d92d20]' : 'border-[#d0d5dd]'}
           ${fieldClassName}
         `}
       >
@@ -88,8 +88,8 @@ const InputElement: React.FC<InputElementProps> = ({
           step={step}
           onClick={onClick}
           className={`text-base w-full placeholder:text-[#667085] border-none 
-            h-full py-[10px] outline-none bg-transparent
-            ${disabled ? 'text-[#667085]' : 'text-[#0D0D12]'}
+            h-full py-[13.5px] outline-none bg-transparent
+            ${disabled ? 'text-[#667085]' : 'text-[#222]'}
             ${inputClassName}
           `}
         />

@@ -4,7 +4,9 @@ import { Button } from "@/components/Button";
 import { InputElement } from "@/components/forms/InputElement";
 import { SelectElement } from "@/components/forms/SelectElement";
 import { TextareaElement } from "@/components/forms/TextareaElement";
+import Link from "next/link";
 import { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
 export default function NewBatchPage() {
   const [form, setForm] = useState({
@@ -33,51 +35,62 @@ export default function NewBatchPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="max-w-3xl mx-auto bg-white shadow rounded-lg">
-        <div className="border-b px-6 py-4">
-          <h4 className="text-xl font-semibold">New Batch</h4>
-        </div>
-        <div className="px-6 py-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <SelectElement 
-              name="numbers"
-              value={form?.numbers}
-              label='Number of Tickets'
-              onChange={(value) => handleChange('numbers', value)}
-              placeholder="Select number of tickets"
-              required
-              options={numbersList}
-            />
-            <InputElement 
-              value={form?.price}
-              name='price'
-              type='number'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter price'
-              required
-              label='Price'
-            />
-            <TextareaElement
-              value={form?.info}
-              name='info'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter info'
-              required
-              label='Ticket Info'
-            />
+    <div className='w-full lg:px-6 lg:max-w-[800px] flex flex-col gap-6 h-full'>
+      <div className="flex items-center gap-[20px]">
+        <Link
+          className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+          href={'/admin/batches'}
+        >
+          <FaChevronLeft size={13} />
+        </Link>
 
-            <hr className="mb-4" />
-
-            <div className="flex items-center pt-4">
-              <Button 
-                type='submit'
-                label='Save'
-              />
-            </div>
-          </form>
-        </div>
+        <h1 className="!text-2xl font-semibold text-[#222]">
+          New Batch
+        </h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="w-full flex flex-col md:grid grid-cols-2 gap-x-[40px] gap-[20px] md:gap-y-[27px]">
+        <SelectElement 
+          name="numbers"
+          value={form?.numbers}
+          label='Number of Tickets'
+          onChange={(value) => handleChange('numbers', value)}
+          placeholder="Select number of tickets"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={numbersList}
+        />
+        <InputElement 
+          value={form?.price}
+          name='price'
+          type='number'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter price'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          required
+          label='Price'
+        />
+        <TextareaElement
+          value={form?.info}
+          name='info'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter info'
+          required
+          fieldClassName="!py-[15px]"
+          rows={6}
+          containerClassName="col-span-2"
+          label='Ticket Info'
+        />
+
+        <div className="col-span-2 flex-col md:flex-row flex items-center justify-end gap-[15px] pt-4">
+          <Button 
+            type='submit'
+            label='Save'
+            containerClassName="w-full md:!w-[150px]"
+          />
+        </div>
+      </form>
     </div>
   );
 }

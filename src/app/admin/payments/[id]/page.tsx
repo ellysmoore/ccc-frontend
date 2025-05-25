@@ -1,59 +1,77 @@
 'use client'
 
 import Link from "next/link";
+import { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
-export const PaymentDetailsPage = () => {
+const PaymentDetailsPage = () => {
+  const [locals, setLocals] = useState(null);
+
   return (
-    <div className="w-full px-4">
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-blue-600">Payment Details</h2>
+    <div className="lg:px-6">
+        <div className="mb-4 flex items-center gap-[20px]">
+          <Link
+            className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+            href={'/admin/payments'}
+          >
+            <FaChevronLeft size={13} />
+          </Link>
+
+          <h1 className="!text-2xl font-semibold text-[#222]">
+            Payment
+          </h1>
         </div>
-        <div className="px-6 py-4">
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full text-sm text-left text-gray-600">
-              <tbody>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Transaction Reference</th>
-                  <td className="py-2">{locals?.post_data}</td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">User</th>
-                  <td className="py-2">
+
+        {/* Payment Details Card */}
+        <div className="bg-white border border-[#D9D9D9] rounded-[12px] mb-6">
+          <div className="flex items-center justify-between px-[16px] py-3 border-b border-[#D9D9D9] ">
+            <h2 className="text-[18px] leading-[140%] font-semibold text-orange-600">Payment Details</h2>
+          </div>
+
+          <div className="p-[16px]">
+            <section className="grid gap-[20px] w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Transaction Reference</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{locals?.post_data}</div>
+                </div>
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">User</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">
                     {locals?.user_id ? (
-                      <Link href={`/admin/users/${uid}`} className="text-blue-500 underline">
+                      <Link href={`/admin/users/${uid}`} className="text-orange-500 underline">
                         {locals?.last_name} {locals?.first_name}
                       </Link>
                     ) : (
                       "Guest"
                     )}
-                  </td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Email</th>
-                  <td className="py-2">{locals?.email}</td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Amount</th>
-                  <td className="py-2">{locals?.amount}</td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Payment Status</th>
-                  <td className="py-2">{locals?.payment_status_id}</td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Response Data</th>
-                  <td className="py-2">{locals?.response_data}</td>
-                </tr>
-                <tr>
-                  <th className="py-2 pr-4 font-medium text-gray-700">Completed</th>
-                  <td className="py-2">{String(locals?.completed)}</td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Email</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{locals?.email}</div>
+                </div>
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Amount</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{locals?.amount}</div>
+                </div>
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Payment Status</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{locals?.payment_status_id}</div>
+                </div>
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Response Data</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{locals?.response_data}</div>
+                </div>
+                <div className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">Completed</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{String(locals?.completed)}</div>
+                </div>
+            </section>
           </div>
         </div>
-      </div>
     </div>
   );
 };
+
+export default PaymentDetailsPage;

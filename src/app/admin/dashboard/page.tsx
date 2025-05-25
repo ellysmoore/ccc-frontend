@@ -17,10 +17,10 @@ export default function AdminDashboardPage() {
   const [downloads, setDownloads] = useState([]);
 
   const DASHBOARD_STATS = [
-    { title: 'Total Users', value: usersCount, icon: <FaUsers />, href: '/admin/users' },
-    { title: 'Total Messages', value: mediaCount, icon: <FaPodcast />, href: '/admin/messages' },
-    { title: 'Total Downloads', value: downloadsCount, icon: <FaDownload /> },
-    { title: 'Total Tickets', value: ticketsCount, icon: <FaTicketAlt />, href: '/admin/batches' },
+    { title: 'Total Users', value: usersCount, icon: <FaUsers className='text-2xl text-gray-300' />, href: '/admin/users' },
+    { title: 'Total Messages', value: mediaCount, icon: <FaPodcast className='text-2xl text-gray-300' />, href: '/admin/messages' },
+    { title: 'Total Downloads', value: downloadsCount, icon: <FaDownload className='text-2xl text-gray-300' /> },
+    { title: 'Total Tickets', value: ticketsCount, icon: <FaTicketAlt className='text-2xl text-gray-300' />, href: '/admin/batches' },
   ];
 
   const [downloadsData, setDownloadsData] = useState({ labels: [], datasets: [{ label: 'Downloads', data: [] }] })
@@ -125,16 +125,17 @@ export default function AdminDashboardPage() {
   
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="lg:p-4 space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {DASHBOARD_STATS?.map(({ title, value, icon, href }) => (
-          <div key={title} className="bg-white shadow rounded-xl border-l-4 border-blue-500 p-4">
+          <div key={title} className="bg-white shadow rounded-xl border-l-4 border-orange-500 p-4">
             <a href={href || '#'} className="flex justify-between items-center">
               <div>
-                <div className="text-sm text-blue-500 uppercase font-bold">{title}</div>
+                <div className="text-sm text-orange-500 uppercase font-bold">{title}</div>
                 <div className="text-xl font-semibold text-gray-800">{value}</div>
               </div>
-              <i className={`${icon} text-2xl text-gray-300`}></i>
+
+              {icon}
             </a>
           </div>
         ))}
@@ -150,29 +151,35 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl shadow p-4">
-          <h3 className="text-blue-500 font-semibold mb-4">Top Downloads</h3>
-          <table className="w-full text-left">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-2 px-3">Title</th>
-                <th className="py-2 px-3">Downloads</th>
+        <div className="bg-white h-fit rounded-xl shadow p-4">
+          <h3 className="text-orange-500 font-semibold mb-4">Top Downloads</h3>
+          <div className='w-full h-full rounded-[12px] bg-white border border-[#D9D9D9]'>
+              <div className='relative min-h-[120px] !overflow-x-auto w-full'>
+                <table className="min-w-max w-full">
+                  <thead>
+                    <tr className='bg-gray-50 border-b border-[#D9D9D9]'>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>Title</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Downloads</th>
               </tr>
             </thead>
             <tbody>
               {
                 downloads?.map((download) => (
-                  <tr key={download?.topic}>
-                    <td className="px-3 py-2">{download?.topic}</td>
-                    <td className="px-3 py-2">{download?.downloads}</td>
+                  <tr key={download?.topic}className='border-b border-[#F5F5F5] smooth'
+                      >
+                        <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{download?.topic}</td>
+                    <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{download?.downloads}</td>
                   </tr>
                 ))
               }
             </tbody>
           </table>
         </div>
+        </div>
+        </div>
+
         <div className="bg-white rounded-xl shadow p-4">
-          <h3 className="text-blue-500 font-semibold mb-4">Latest Feedbacks</h3>
+          <h3 className="text-orange-500 font-semibold mb-4">Latest Feedbacks</h3>
           <div className="text-gray-500 text-sm">No feedbacks yet.</div>
         </div>
       </div>
@@ -183,7 +190,7 @@ export default function AdminDashboardPage() {
 const ChartCard = ({ title, children }: { title: string, children: React.ReactNode }) => {
   return (
     <div className="bg-white rounded-xl shadow p-4 h-80">
-      <h3 className="text-blue-500 font-semibold mb-2">{title}</h3>
+      <h3 className="text-orange-500 font-semibold mb-2">{title}</h3>
       <div className="h-[calc(100%-2rem)]">{children}</div>
     </div>
   )

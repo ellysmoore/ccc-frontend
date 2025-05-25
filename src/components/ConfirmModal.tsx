@@ -24,7 +24,7 @@ export const ConfirmModal = ({ title, body, isOpen, onClose, handleConfirm }: {
         title={title}
       >
         <form onSubmit={handleSubmit} className="flex flex-col gap-[15px] md:px-6 pt-2 px-4 pb-4">
-          <div className='text-sm text-[#0D0D12]'>
+          <div className='text-sm text-[#0D0D12] pb-3'>
             {body}
           </div>
 
@@ -32,6 +32,7 @@ export const ConfirmModal = ({ title, body, isOpen, onClose, handleConfirm }: {
             <Button 
               type='button'
               label='Cancel'
+              variant='outlined'
               onClick={onClose}
             />
 

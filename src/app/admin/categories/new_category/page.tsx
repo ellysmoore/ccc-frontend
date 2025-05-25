@@ -6,7 +6,9 @@ import { FileUploader } from "@/components/forms/FileUploader";
 import { InputElement } from "@/components/forms/InputElement";
 import { SelectElement } from "@/components/forms/SelectElement";
 import { TextareaElement } from "@/components/forms/TextareaElement";
+import Link from "next/link";
 import { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa";
 
 export default function NewCategoryPage() {
   const [icon, setIcon] = useState<File | null>(null);
@@ -52,108 +54,130 @@ export default function NewCategoryPage() {
   }
   
   return (
-    <div className="p-6">
-      <div className="max-w-3xl mx-auto bg-white shadow rounded-lg">
-        <div className="border-b px-6 py-4">
-          <h4 className="text-xl font-semibold">New Category</h4>
-        </div>
-        <div className="px-6 py-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <InputElement 
-              value={form?.name}
-              name='name'
-              type='text'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter name'
-              required
-              label='Title'
-            />
-            <TextareaElement
-              value={form?.description}
-              name='description'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter description'
-              required
-              label='Description'
-            />
-            <SelectElement 
-              name="category"
-              value={form?.category}
-              label='Parent Category'
-              onChange={(value) => handleChange('category', value)}
-              placeholder="Select categories"
-              required
-              options={categoryList}
-            />
-            <SelectElement 
-              name="category_types"
-              value={form?.category_type}
-              label
-              onChange={(value) => handleChange('category_types', value)}
-              placeholder="Select category types"
-              required
-              options={categoryTypesList}
-            />
+    <div className='w-full lg:px-6 lg:max-w-[800px] flex flex-col gap-6 h-full'>
+      <div className="flex items-center gap-[20px]">
+        <Link
+          className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+          href={'/admin/categories'}
+        >
+          <FaChevronLeft size={13} />
+        </Link>
 
-            <FileUploader 
-              name="icon"
-              value={icon}
-              onChange={(file) => setIcon(file)}
-              required
-              allowedFileTypes={['.jpeg', '.jpg', '.png']}
-              label='Icon'
-            />
-            <FileUploader 
-              name="banner"
-              value={banner}
-              onChange={(file) => setIcon(file)}
-              required
-              allowedFileTypes={['.jpeg', '.jpg', '.png']}
-              label='Banner'
-            /> 
-            <hr className="mb-3" />
-            <InputElement 
-              value={form?.start_date}
-              name='start_date'
-              type='date'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter start date'
-              required
-              label='Start Date'
-            />
-            <InputElement 
-              value={form?.end_date}
-              name='end_date'
-              type='date'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter end date'
-              required
-              label='End Date'
-            />
-            <hr className="mb-3" />
-            <Checkbox 
-              checked={form?.featured}
-              onToggle={(value: boolean) => handleChange('featured', value)}
-              rightLabel='Featured'
-            />
-
-            <hr className="mb-4" />
-
-            <div className="flex items-center gap-[15px] pt-4">
-              <Button 
-                type='button'
-                onClick={handleDraft}
-                label='Save as Draft'
-              />
-
-              <Button 
-                type='submit'
-                label='Publish'
-              />
-            </div>
-          </form>
-        </div>
+        <h1 className="!text-2xl font-semibold text-[#222]">
+          New Category
+        </h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="w-full flex flex-col md:grid grid-cols-2 gap-x-[40px] gap-[20px] md:gap-y-[27px]">
+        <InputElement 
+          value={form?.name}
+          name='name'
+          type='text'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter name'
+          containerClassName="col-span-2"
+          required
+          label='Title'
+        />
+        <SelectElement 
+          name="category"
+          value={form?.category}
+          label='Parent Category'
+          onChange={(value) => handleChange('category', value)}
+          placeholder="Select categories"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={categoryList}
+        />
+        <SelectElement 
+          name="category_types"
+          value={form?.category_type}
+          label="Category Types"
+          onChange={(value) => handleChange('category_types', value)}
+          placeholder="Select category types"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={categoryTypesList}
+        />
+
+        <FileUploader 
+          name="icon"
+          value={icon}
+          onChange={(file) => setIcon(file)}
+          required
+          uploadClassName="!rounded-[12px]"
+          allowedFileTypes={['.jpeg', '.jpg', '.png']}
+          label='Icon'
+        />
+        <FileUploader 
+          name="banner"
+          value={banner}
+          onChange={(file) => setIcon(file)}
+          required
+          uploadClassName="!rounded-[12px]"
+          allowedFileTypes={['.jpeg', '.jpg', '.png']}
+          label='Banner'
+        /> 
+        
+        <InputElement 
+          value={form?.start_date}
+          name='start_date'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          type='date'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter start date'
+          required
+          label='Start Date'
+        />
+        <InputElement 
+          value={form?.end_date}
+          name='end_date'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          type='date'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter end date'
+          required
+          label='End Date'
+        />
+        
+        <Checkbox 
+          checked={form?.featured}
+          onToggle={(value: boolean) => handleChange('featured', value)}
+          rightLabel='Featured'
+
+        />
+        <TextareaElement
+          value={form?.description}
+          name='description'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter description'
+          required
+          fieldClassName="!py-[15px]"
+          containerClassName="col-span-2"
+          rows={6}
+          label='Description'
+        />
+
+        <div className="col-span-2 flex-col md:flex-row flex items-center justify-end gap-[15px] pt-4">
+          <Button 
+            type='button'
+            onClick={handleDraft}
+            variant="primary-outlined"
+            label='Save as Draft'
+            containerClassName="w-full md:!w-[150px]"
+          />
+
+          <Button 
+            type='submit'
+            label='Publish'
+            containerClassName="w-full md:!w-[150px]"
+          />
+        </div>
+      </form>
     </div>
   );
 }

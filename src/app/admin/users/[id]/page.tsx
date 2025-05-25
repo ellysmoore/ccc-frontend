@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaEye, FaWallet } from 'react-icons/fa';
+import { FaChevronLeft, FaEye, FaWallet } from 'react-icons/fa';
 import { AdminFundWalletModal } from '@/components/AdminFundWalletModal';
+import { Button } from '@/components/Button';
 
 export default function UserDetailsPage() {
   const [user, setUser] = useState(null);
@@ -27,99 +28,126 @@ export default function UserDetailsPage() {
 
   return (
     <>
-      <div className="container mx-auto p-4">
+      <div className="lg:px-6">
+        <div className="mb-4 flex items-center gap-[20px]">
+          <Link
+            className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+            href={'/admin/users'}
+          >
+            <FaChevronLeft size={13} />
+          </Link>
+
+          <h1 className="!text-2xl font-semibold text-[#222]">
+            User
+          </h1>
+        </div>
+
         {/* User Details Card */}
-        <div className="bg-white shadow rounded-lg mb-6">
-          <div className="flex items-center justify-between px-6 py-4 border-b">
-            <h2 className="text-lg font-semibold text-blue-600">User Details</h2>
-            <button
-              className="hidden sm:inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded hover:bg-blue-700"
+        <div className="bg-white border border-[#D9D9D9] rounded-[12px] mb-6">
+          <div className="flex items-center justify-between px-[16px] py-3 border-b border-[#D9D9D9] ">
+            <h2 className="text-[18px] leading-[140%] font-semibold text-orange-600">User Details</h2>
+            
+            <Button
               onClick={() => setShowModal('fundWallet')}
-            >
-              <FaWallet className='mr-2 text-white/70' />
-              Fund Wallet
-            </button>
+              containerClassName="!w-fit !py-[6px]"
+              label={
+                <div className="w-fit flex items-center gap-[2px]">
+                  <FaWallet className="mr-2 text-white/70" /> Fund Wallet
+                </div>
+              }
+            />
           </div>
 
-          <div className="p-6">
-            <table className="table-auto w-full text-sm">
-              <tbody>
-                {userDetails.map(([label, value]) => (
-                  <tr key={label} className="border-t">
-                    <th className="text-left py-2 font-medium text-gray-600 w-1/3">{label}</th>
-                    <td className="py-2 text-gray-900">{value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="p-[16px]">
+            <section className="grid gap-[20px] w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+              {userDetails.map(([label, value]) => (
+                <div key={label} className="flex flex-col gap-[2px]">
+                  <div className="text-left text-[13px] text-[#6B6968] w-full">{label}</div>
+                  <div className="text-left text-[15px] text-[#222] w-full">{value}</div>
+                </div>
+              ))}
+            </section>
           </div>
         </div>
 
         {/* Payments and Downloads */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Payments */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-6 py-4 border-b">
-              <h2 className="text-lg font-semibold text-blue-600">Payments</h2>
+          <div className="bg-white border border-[#D9D9D9] rounded-[12px] mb-6">
+            <div className="flex items-center justify-between px-[16px] py-3 border-b border-[#D9D9D9] ">
+              <h2 className="text-[18px] leading-[140%] font-semibold text-orange-600">Payments</h2>
             </div>
-            <div className="p-6 overflow-auto">
-              <table className="table-auto w-full text-sm">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th>#</th>
-                    <th>Transaction Code</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(payments || []).map((payment: any, index: number) => (
-                    <tr key={payment.id} className="border-t">
-                      <td>{index + 1}</td>
-                      <td>{payment.post_data}</td>
-                      <td>{payment.amount}</td>
-                      <td>{payment.payment_status_id}</td>
-                      <td>{payment.created}</td>
-                      <td>
-                        <Link href={`/admin/payments/${payment.id}`} className="text-blue-600 hover:underline">
-                          <FaEye />
-                        </Link>
-                      </td>
+
+            <div className='w-full h-full bg-white border border-[#D9D9D9]'>
+              <div className='relative min-h-[120px] !overflow-x-auto w-full'>
+                <table className="min-w-max w-full">
+                  <thead>
+                    <tr className='bg-gray-50 border-b border-[#D9D9D9]'>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>#</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Transaction Code</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Amount</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Status</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Date</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {(payments || []).map((payment: any, index: number) => (
+                      <tr
+                        key={payment.id}
+                        className='border-b border-[#F5F5F5] smooth'
+                      >
+                        <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{index + 1}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.post_data}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.amount}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.payment_status_id}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.created}</td>
+                        <td className="md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium pr-[8px]">
+                          <div className="w-fit flex text-[#CCC] items-center gap-[8px]">
+                            <Link href={`/admin/payments/${payment.id}`} title='View'>
+                              <FaEye size={17} className="text-orange-500" />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
           {/* Downloads */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-6 py-4 border-b">
-              <h2 className="text-lg font-semibold text-blue-600">Downloads</h2>
+          <div className="bg-white border border-[#D9D9D9] rounded-[12px] mb-6">
+            <div className="flex items-center justify-between px-[16px] py-3 border-b border-[#D9D9D9] ">
+              <h2 className="text-[18px] leading-[140%] font-semibold text-orange-600">Downloads</h2>
             </div>
-            <div className="p-6 overflow-auto">
-              <table className="table-auto w-full text-sm">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th>#</th>
-                    <th>Topic</th>
-                    <th>Price</th>
-                    <th>Downloaded</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(downloads || []).map((download: any, index: number) => (
-                    <tr key={index} className="border-t">
-                      <td>{index + 1}</td>
-                      <td>{download.topic}</td>
-                      <td>{download.price}</td>
-                      <td>{download.created}</td>
+
+            <div className='w-full h-full bg-white border border-[#D9D9D9]'>
+              <div className='relative min-h-[120px] !overflow-x-auto w-full'>
+                <table className="min-w-max w-full">
+                  <thead>
+                    <tr className='bg-gray-50 border-b border-[#D9D9D9]'>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>#</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Topic</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Price</th>
+                      <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Downloaded</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {(downloads || []).map((download: any, index: number) => (
+                      <tr
+                        key={download.id}
+                        className='border-b border-[#F5F5F5] smooth'
+                      >
+                        <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{index + 1}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{download.topic}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{download.price}</td>
+                        <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{download.created}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

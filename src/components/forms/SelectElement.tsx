@@ -165,7 +165,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
             onChange={(e) => handleSearch(e)}
             placeholder={searchPlaceholder || 'Search...'}
             className={
-              'bg-gray-50 text-gray-700 placeholder:text-gray-500 w-full text-base border-none py-0 outline-none'
+              'bg-gray-50 text-gray-700 placeholder:text-[#667085] w-full text-base border-none py-0 outline-none'
             }
           />
         </div>
@@ -236,8 +236,8 @@ const SelectElement: React.FC<SelectElementProps> = ({
           onClick={handleClick}
           className={`flex items-center justify-between w-full border
             text-base rounded-full gap-[8px] shadow-[0px_1px_2px_0px_#1018280D] py-[10px] px-[14px] 
-            ${disabled ? 'bg-gray-300' : 'bg-white'}
-            ${isOptionOpen ? 'border-gray-800' : invalid ? 'border-red-600' : 'border-gray-400'}
+            ${disabled ? 'bg-[#f9fafb]' : 'bg-white'}
+            ${isOptionOpen ? 'border-orange-600' : invalid ? 'border-red-600' : 'border-[#d0d5dd]'}
             ${fieldClassName}
           `}
         >
@@ -245,7 +245,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
 
           <div
             className={`w-full whitespace-nowrap overflow-x-hidden border-none flex items-center 
-            ${disabled ? 'text-gray-500' : 'text-gray-800'} capitalize outline-none bg-transparent 
+            ${disabled ? 'text-[#667085]' : 'text-[#222]'} capitalize outline-none bg-transparent 
             ${valueClassName}
             `}
           >
@@ -256,7 +256,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
                 {innerLabel && (
                   <div
                     className={`border-none outline-none bg-transparent
-                      ${disabled ? 'text-gray-500' : 'text-gray-700'}
+                      ${disabled ? 'text-[#667085]' : 'text-gray-700'}
                     `}
                   >
                     {innerLabel}&#160;
@@ -278,7 +278,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
                     getOptionLabel?.toString()?.replace(/,/g, ', ')
                   )
                 ) : (
-                  <span className="text-gray-500">{placeholder}</span>
+                  <span className="text-[#667085]">{placeholder}</span>
                 )}
               </>
             )}

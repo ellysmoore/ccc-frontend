@@ -88,7 +88,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       />
       <div className={`w-full flex flex-col gap-[6px] ${uploadContainerClassName}`}>
         <div
-          className={`border border-gray-200 rounded-full flex text-base gap-[6px] justify-between items-center px-3 ${uploadClassName}`}
+          className={`border border-[#d0d5dd] bg-white rounded-full flex text-base gap-[6px] justify-between items-center px-3 ${uploadClassName}`}
         >
           <span className="w-full text-sm truncate">
             {value ? value.name : 'No file selected'}
@@ -113,7 +113,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
           <label
             htmlFor={name}
-            className="cursor-pointer border-l border-gray-300 whitespace-nowrap py-[10px] px-[10px] text-base text-gray-800 min-w-fit"
+            className="cursor-pointer border-l border-[#d0d5dd] whitespace-nowrap py-[13px] px-[10px] text-base text-gray-800 min-w-fit"
           >
             Select media
           </label>

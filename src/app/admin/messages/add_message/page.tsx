@@ -6,7 +6,9 @@ import { FileUploader } from "@/components/forms/FileUploader";
 import { InputElement } from "@/components/forms/InputElement";
 import { SelectElement } from "@/components/forms/SelectElement";
 import { TextareaElement } from "@/components/forms/TextareaElement";
+import Link from "next/link";
 import { useState } from "react";
+import { FaChevronLeft  } from "react-icons/fa";
 
 export default function NewMessagePage() {
   const [file, setFile] = useState<File | null>(null);
@@ -71,119 +73,142 @@ export default function NewMessagePage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="max-w-3xl mx-auto bg-white shadow rounded-lg">
-        <div className="border-b px-6 py-4">
-          <h4 className="text-xl font-semibold">New Message</h4>
-        </div>
-        <div className="px-6 py-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* TODO: ADD AN IMAGE DISPLAY HERE FOR WHATEVER WAS UPLOADED */}
-            <FileUploader 
-              name="file"
-              value={file}
-              onChange={(file) => setFile(file)}
-              required
-              allowedFileTypes={['.pdf', '.mp3']}
-              label='File'
-            /> 
+    <div className='w-full lg:px-6 lg:max-w-[800px] flex flex-col gap-6 h-full'>
+      <div className="flex items-center gap-[20px]">
+        <Link
+          className='w-[40px] h-[40px] bg-[#EAEAEA] rounded-full grid place-items-center bg-opacity-40'
+          href={'/admin/messages'}
+        >
+          <FaChevronLeft size={13} />
+        </Link>
 
-            <InputElement 
-              value={form?.topic}
-              name='topic'
-              type='text'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter topic'
-              required
-              label='Title'
-            />
-            <SelectElement 
-              name="category"
-              value={form?.category}
-              multiple
-              label="Category"
-              onChange={(value) => handleChange('category', value)}
-              placeholder="Select categories"
-              required
-              options={categoryList}
-            />
-            <SelectElement 
-              name="service"
-              value={form?.service}
-              label="Service"
-              onChange={(value) => handleChange('service', value)}
-              placeholder="Select service"
-              required
-              options={serviceList}
-            />
-            <SelectElement 
-              name="centre"
-              value={form?.centre}
-              multiple
-              label="Centre"
-              onChange={(value) => handleChange('centre', value)}
-              placeholder="Select centre"
-              required
-              options={centreList}
-            />
-            <SelectElement 
-              name="speaker"
-              value={form?.speaker}
-              label="Speaker"
-              onChange={(value) => handleChange('speaker', value)}
-              placeholder="Select speaker"
-              required
-              options={speakerList}
-            />
-            <TextareaElement
-              value={form?.description}
-              name='description'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter description'
-              required
-              label='Description'
-            />
-            <InputElement 
-              value={form?.price}
-              name='price'
-              type='number'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter price'
-              required
-              label='Price'
-            />
-            <Checkbox 
-              checked={form?.is_free}
-              onToggle={(value: boolean) => handleChange('is_free', value)}
-              rightLabel='Allow Free Download'
-            />
-            <InputElement 
-              value={form?.when}
-              name='when'
-              type='date'
-              onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
-              placeholder='Enter published date'
-              required
-              label='Published On'
-            />
-
-            <hr className="mb-4" />
-
-            <div className="flex items-center gap-[15px] pt-4">
-              <Button 
-                type='button'
-                onClick={handleDraft}
-                label='Save as Draft'
-              />
-
-              <Button 
-                type='submit'
-                label='Publish'
-              />
-            </div>
-          </form>
-        </div>
+        <h1 className="!text-2xl font-semibold text-[#222]">
+          New Message
+        </h1>
       </div>
+
+      <form onSubmit={handleSubmit} className="w-full flex flex-col md:grid grid-cols-2 gap-x-[40px] gap-[20px] md:gap-y-[27px]">
+        {/* TODO: ADD AN IMAGE DISPLAY HERE FOR WHATEVER WAS UPLOADED */}
+        <FileUploader 
+          name="file"
+          value={file}
+          onChange={(file) => setFile(file)}
+          required
+          uploadClassName="!rounded-[12px]"
+          allowedFileTypes={['.pdf', '.mp3']}
+          label='File'
+        /> 
+
+        <InputElement 
+          value={form?.topic}
+          name='topic'
+          type='text'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter topic'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          required
+          label='Title'
+        />
+        <SelectElement 
+          name="category"
+          value={form?.category}
+          multiple
+          label="Category"
+          onChange={(value) => handleChange('category', value)}
+          placeholder="Select categories"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={categoryList}
+        />
+        <SelectElement 
+          name="service"
+          value={form?.service}
+          label="Service"
+          onChange={(value) => handleChange('service', value)}
+          placeholder="Select service"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={serviceList}
+        />
+        <SelectElement 
+          name="centre"
+          value={form?.centre}
+          multiple
+          label="Centre"
+          onChange={(value) => handleChange('centre', value)}
+          placeholder="Select centre"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={centreList}
+        />
+        <SelectElement 
+          name="speaker"
+          value={form?.speaker}
+          label="Speaker"
+          onChange={(value) => handleChange('speaker', value)}
+          placeholder="Select speaker"
+          fieldClassName="!rounded-[12px] !py-[13px]"
+          required
+          options={speakerList}
+        />
+        <InputElement 
+          value={form?.price}
+          name='price'
+          type='number'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter price'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          required
+          label='Price'
+        />
+        <InputElement 
+          value={form?.when}
+          name='when'
+          type='date'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter published date'
+          fieldClassName="!rounded-[12px]"
+          inputClassName='!py-[15px]'
+          required
+          label='Published On'
+        />
+
+        <Checkbox 
+          checked={form?.is_free}
+          onToggle={(value: boolean) => handleChange('is_free', value)}
+          rightLabel='Allow Free Download'
+        />
+
+        <TextareaElement
+          value={form?.description}
+          name='description'
+          onChangeEvent={(e) => handleChange(e.target.name, e.target.value)}
+          placeholder='Enter description'
+          required
+          fieldClassName="!py-[15px]"
+          rows={6}
+          containerClassName="col-span-2"
+          label='Description'
+        />
+
+        <div className="col-span-2 flex-col md:flex-row flex items-center justify-end gap-[15px] pt-4">
+          <Button 
+            type='button'
+            onClick={handleDraft}
+            variant="primary-outlined"
+            label='Save as Draft'
+            containerClassName="w-full md:!w-[150px]"
+          />
+
+          <Button 
+            type='submit'
+            label='Publish'
+            containerClassName="w-full md:!w-[150px]"
+          />
+        </div>
+      </form>
     </div>
   );
 }

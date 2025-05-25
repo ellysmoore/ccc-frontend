@@ -17,7 +17,7 @@ const TextareaElement: React.FC<TextareaElementProps> = ({
   value,
   onChangeValue,
   onChangeEvent,
-  rows,
+  rows = 6,
   hint,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -72,8 +72,8 @@ const TextareaElement: React.FC<TextareaElementProps> = ({
         rows={rows}
         className={`flex items-center w-full text-base placeholder:text-gray-500 cursor-text
           rounded-[8px] shadow-[0px_1px_2px_0px_#1018280D] border py-[10px] px-[14px] outline-none 
-          ${disabled ? 'text-gray-500 bg-gray-300' : 'text-gray-800 bg-white'}
-          ${isFocused ? 'border-gray-800' : invalid ? 'border-red-600' : 'border-gray-400'}
+          ${disabled ? 'text-[#667085] bg-gray-300' : 'text-[#222] bg-white'}
+          ${isFocused ? 'border-orange-600' : invalid ? 'border-red-600' : 'border-[#d0d5dd]'}
           ${fieldClassName}
         `}
         onKeyDown={handleKeyDown}

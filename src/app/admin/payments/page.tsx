@@ -1,6 +1,7 @@
 'use client'
 
 import { Pagination } from "@/components";
+import { SearchBar } from "@/components/common/SearchBar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,73 +42,69 @@ export default function PaymentsPage() {
 
   useEffect(() => {
     const url = new URLSearchParams(window.location.search);
-    setQuery(url.get("q") || "");
+    const q = url.get("q");
+
+    if (q) setQuery(q || "");
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push(`/admin/payments?q=${query}`);
-  };
+  const handleQuery = (value: string) => {
+    setQuery(value);
+    router.push(`/admin/services?q=${value}`);
+  }
 
   return (
     <>
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+      <div className="lg:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-[20px] sm:justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-800">
             {query ? `Search results for "${query}"` : "Payments"}
           </h1>
         </div>
 
-        <form onSubmit={handleSearch} className="mb-4">
-          <div className="flex rounded shadow-sm overflow-hidden max-w-md">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 hover:bg-blue-700"
-            >
-              <FaSearch />
-            </button>
-          </div>
-        </form>
+        <SearchBar
+          placeholder="Search..."
+          name="search_module"
+          value={query}
+          setValue={(value) => handleQuery(value)}
+          containerClassName="lg:!flex !hidden !w-[350px] lg:!w-[400px]"
+        />
 
-        <div className="overflow-x-auto bg-white shadow rounded-lg">
-          <table className="w-full table-auto text-sm text-left text-gray-700">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2">#</th>
-                <th className="px-4 py-2">Transaction Reference</th>
-                <th className="px-4 py-2">Amount</th>
-                <th className="px-4 py-2">Status</th>
-                <th className="px-4 py-2">Date</th>
-                <th className="px-4 py-2">Actions</th>
+        <div className='w-full flex flex-col'>
+          <div className='w-full h-full bg-white rounded-[12px] border border-[#D9D9D9] mt-4'>
+            <div className='border-b border-[#D9D9D9] relative min-h-[120px] !overflow-x-auto w-full'>
+              <table className="min-w-max w-full">
+                <thead>
+                  <tr className='border-b border-[#D9D9D9]'>
+                    <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>#</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Transaction Reference</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Amount</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Status</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Date</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Actions</th>
               </tr>
             </thead>
             <tbody>
               {payments.map((payment, index) => (
                 <tr
                   key={payment.id}
-                  className="border-t hover:bg-gray-50 transition-colors"
-                >
-                  <td className="px-4 py-2">{index + 1}</td>
-                  <td className="px-4 py-2">{payment.post_data}</td>
-                  <td className="px-4 py-2">{payment.amount}</td>
-                  <td className="px-4 py-2">{payment.payment_status_id}</td>
-                  <td className="px-4 py-2">{payment.created}</td>
-                  <td className="px-4 py-2 space-x-2">
+                  className='border-b border-[#F5F5F5] smooth'
+                    >
+                      <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{index + 1}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.post_data}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.amount}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.payment_status_id}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{payment.created}</td>
+                  <td className="md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium pr-[8px]">
                     <Link href={`/admin/payments/${payment.id}`} title="View">
-                      <FaEye className="text-blue-500" />
+                      <FaEye size={17} className="text-orange-500" />
                     </Link>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        </div>
         </div>
 
         <Pagination 

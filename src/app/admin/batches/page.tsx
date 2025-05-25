@@ -1,6 +1,8 @@
 'use client'
 
 import { Pagination } from "@/components";
+import { Button } from "@/components/Button";
+import { SearchBar } from "@/components/common/SearchBar";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -46,13 +48,15 @@ export default function SpeakersPage() {
 
   useEffect(() => {
     const url = new URLSearchParams(window.location.search);
-    setQuery(url.get("q") || "");
+    const q = url.get("q");
+
+    if (q) setQuery(q || "");
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push(`/admin/batches?q=${query}`);
-  };
+  const handleQuery = (value: string) => {
+    setQuery(value);
+    router.push(`/admin/services?q=${value}`);
+  }
 
   const handleDelete = () => {
     // TODO: Handle status here
@@ -60,81 +64,82 @@ export default function SpeakersPage() {
 
   return (
     <>
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+      <div className="lg:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-[20px] sm:justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-800">
             {query ? `Search results for "${query}"` : "Batches"}
           </h1>
-          <Link
+          
+          <Button
             href="/admin/batches/new_batch"
-            className="mt-2 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-700"
-          >
-            <FaPlus className="mr-2 text-white/70" /> New Batch
-          </Link>
+            containerClassName="!w-fit"
+            label={
+              <div className="w-fit flex items-center gap-[5px]">
+                <FaPlus className="mr-2 text-white/70" /> New Batch
+              </div>
+            }
+          />
         </div>
 
-        <form onSubmit={handleSearch} className="mb-4">
-          <div className="flex rounded shadow-sm overflow-hidden max-w-md">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-3 py-2 border border-gray-300 focus:outline-none"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 hover:bg-blue-700"
-            >
-              <FaSearch />
-            </button>
-          </div>
-        </form>
+        <SearchBar
+          placeholder="Search..."
+          name="search_module"
+          value={query}
+          setValue={(value) => handleQuery(value)}
+          containerClassName="lg:!flex !hidden !w-[350px] lg:!w-[400px]"
+        />
 
-        <div className="overflow-x-auto bg-white shadow rounded-lg">
-          <table className="w-full table-auto text-sm text-left text-gray-700">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2">Batch #</th>
-                <th className="px-4 py-2">Number</th>
-                <th className="px-4 py-2">Price</th>
-                <th className="px-4 py-2">Info</th>
-                <th className="px-4 py-2">Is Generated</th>
-                <th className="px-4 py-2">Created</th>
-                <th className="px-4 py-2">Actions</th>
+        <div className='w-full flex flex-col'>
+          <div className='w-full h-full bg-white rounded-[12px] border border-[#D9D9D9] mt-4'>
+            <div className='border-b border-[#D9D9D9] relative min-h-[120px] !overflow-x-auto w-full'>
+              <table className="min-w-max w-full">
+                <thead>
+                  <tr className='border-b border-[#D9D9D9]'>
+                    <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>Batch #</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Number</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Price</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Info</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Is Generated</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Created</th>
+                <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Actions</th>
               </tr>
             </thead>
             <tbody>
               {batches.map((batch, index) => (
                 <tr
                   key={batch.id}
-                  className="border-t hover:bg-gray-50 transition-colors"
-                >
-                  <td className="px-4 py-2">{index + 1}</td>
-                  <td className="px-4 py-2">{batch.batch_no}</td>
-                  <td className="px-4 py-2">{batch.number}</td>
-                  <td className="px-4 py-2">{batch.price}</td>
-                  <td className="px-4 py-2">{batch.info}</td>
-                  <td className="px-4 py-2">{batch.is_generated ? 'Yes' : 'No'}</td>
-                  <td className="px-4 py-2">{batch.created}</td>
-                  <td className="px-4 py-2 space-x-2">
+                  className='border-b border-[#F5F5F5] smooth'
+                    >
+                      <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{index + 1}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.batch_no}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.number}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.price}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.info}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.is_generated ? 'Yes' : 'No'}</td>
+                  <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{batch.created}</td>
+                  <td className="md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium pr-[8px]">
+                        <div className="w-fit flex text-[#CCC] items-center gap-[8px]">
                     <Link href={`/admin/batches/${batch.id}`} title="Edit">
-                      <FaEye className="text-blue-500" />
-                    </Link>
+                      <FaEye size={17} className="text-orange-500" />
+                    </Link>|
                     <Link href={`/admin/batches/edit_batch/${batch.id}`} title="Edit">
-                      <FaEdit className="text-blue-500" />
-                    </Link>
+                      <FaEdit size={17} className="text-orange-500" />
+                    </Link>|
                     <button
                       onClick={() => setShowModal('delete')}
                       title="Delete"
+                      className="cursor-pointer"
                     >
-                      <FaTrash className="text-red-500" />
+                      <FaTrash size={17} className="text-orange-500" />
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        </div>
         </div>
 
         <Pagination 

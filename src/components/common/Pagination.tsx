@@ -20,7 +20,7 @@ export const Pagination = ({ query = '', page, pages } : PaginationProps) => {
 
   if (start !== 1) {
     paginationItems.push(
-      <li key="start-ellipsis" className="text-gray-500 px-3 py-1">...</li>
+      <li key="start-ellipsis" className="border border-[#D9D9D9] text-gray-500 px-3 py-2">...</li>
     );
   }
 
@@ -28,8 +28,8 @@ export const Pagination = ({ query = '', page, pages } : PaginationProps) => {
     paginationItems.push(
       <li
         key={i}
-        className={`cursor-pointer px-3 py-1 rounded ${
-          i === page ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'
+        className={`cursor-pointer px-3 py-2 border ${
+          i === page ? 'bg-orange-600 border-orange-600 text-white' : 'border-[#D9D9D9] hover:bg-gray-200'
         }`}
         onClick={() => goToPage(i)}
       >
@@ -40,15 +40,15 @@ export const Pagination = ({ query = '', page, pages } : PaginationProps) => {
 
   if (page + 4 < pages) {
     paginationItems.push(
-      <li key="end-ellipsis" className="text-gray-500 px-3 py-1">...</li>
+      <li key="end-ellipsis" className="border border-[#D9D9D9] text-gray-500 px-3 py-2">...</li>
     );
   }
 
   return (
-    <ul className="flex justify-center mt-3 space-x-1 text-sm">
+    <ul className="w-fit mx-auto rounded-[12px] bg-white flex justify-center mt-3 text-sm">
       <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
         <button
-          className={`${(page === 1) ? 'text-gray-400 px-3 py-1' : ''} cursor-pointer text-blue-600 hover:underline px-3 py-1`}
+          className={`${(page === 1) ? 'text-gray-400 px-3 py-2' : ''} rounded-l-[12px] border border-[#D9D9D9] cursor-pointer text-orange-600 hover:underline px-3 py-2`}
           onClick={() => goToPage(1)}
           disabled={page === 1}
         >
@@ -60,7 +60,7 @@ export const Pagination = ({ query = '', page, pages } : PaginationProps) => {
 
       <li className={`page-item ${page === pages ? 'disabled' : ''}`}>
         <button
-          className={`${(page === pages) ? 'text-gray-400 px-3 py-1' : ''} cursor-pointer text-blue-600 hover:underline px-3 py-1`}
+          className={`${(page === pages) ? 'text-gray-400 px-3 py-2' : ''} rounded-r-[12px] border border-[#D9D9D9] cursor-pointer text-orange-600 hover:underline px-3 py-2`}
           onClick={() => goToPage(pages)}
           disabled={page === pages}
         >

@@ -37,7 +37,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           <>
             <path
               d="M0 6C0 2.68629 2.68629 0 6 0H14C17.3137 0 20 2.68629 20 6V14C20 17.3137 17.3137 20 14 20H6C2.68629 20 0 17.3137 0 14V6Z"
-              fill="#e17964"
+              fill="#FF6300"
             />
             <path
               d="M14.6666 6.5L8.24992 12.9167L5.33325 10"
@@ -52,7 +52,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           <path
             d="M0.5 6C0.5 2.96243 2.96243 0.5 6 0.5H14C17.0376 0.5 19.5 2.96243 19.5 6V14C19.5 17.0376 17.0376 19.5 14 19.5H6C2.96243 19.5 0.5 17.0376 0.5 14V6Z"
             stroke="#D0D5DD"
-            fill="transparent"
+            fill="white"
           />
         )}
       </svg>
