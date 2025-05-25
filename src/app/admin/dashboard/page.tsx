@@ -61,10 +61,10 @@ export default function AdminDashboardPage() {
     socket.on('monthlyDownloads', downloads => {
       downloads = (downloads || []).reverse()
       setDownloadsData({
-        labels: downloads.map((d: any) => d.monthyear),
+        labels: downloads.map((d: { monthyear: string }) => d.monthyear),
         datasets: [{
           label: 'Downloads',
-          data: downloads.map((d: any) => d.downloads),
+          data: downloads.map((d: { downloads: string }) => d.downloads),
           borderColor: 'rgba(78, 115, 223, 1)',
           backgroundColor: 'rgba(78, 115, 223, 0.05)',
           tension: 0.3,
@@ -76,10 +76,10 @@ export default function AdminDashboardPage() {
     socket.on('monthlyRegistrations', registrations => {
       registrations = (registrations || []).reverse()
       setRegistrationsData({
-        labels: registrations.map((d: any) => d.monthyear),
+        labels: registrations.map((d: { monthyear: string }) => d.monthyear),
         datasets: [{
           label: 'Registrations',
-          data: registrations.map((d: any) => d.users),
+          data: registrations.map((d: { users: string }) => d.users),
           borderColor: 'rgba(78, 115, 223, 1)',
           backgroundColor: 'rgba(78, 115, 223, 0.05)',
           tension: 0.3,
@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
     layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
     scales: {
       x: {
-        type: 'timeseries',
+        // type: 'timeseries',
         time: { unit: 'month' },
         grid: { display: false, drawBorder: false },
         ticks: { maxTicksLimit: 12 }
@@ -126,7 +126,7 @@ export default function AdminDashboardPage() {
         ticks: {
           maxTicksLimit: 5,
           padding: 10,
-          callback: (value: any) => Number(value).toLocaleString()
+          callback: (value: string) => Number(value).toLocaleString()
         },
         grid: {
           color: "rgb(234, 236, 244)",
@@ -152,12 +152,15 @@ export default function AdminDashboardPage() {
         intersect: false,
         mode: 'index' as const,
         caretPadding: 10,
-        // callbacks: {
-        //   label: (context) => {
-        //     let datasetLabel = context.dataset.label || '';
-        //     return datasetLabel + ':' + Number(context.parsed.y).toLocaleString();
-        //   }
-        // }
+        callbacks: {
+          label: (context: {
+            dataset: { label: string },
+            parsed: { y: string }
+          }) => {
+            const datasetLabel = context.dataset.label || '';
+            return datasetLabel + ':' + Number(context.parsed.y).toLocaleString();
+          }
+        }
       }
     }
   }
@@ -180,14 +183,16 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ChartCard title="Downloads Overview">
+          {/* @ts-expect-error null */}
           <Line data={downloadsData} options={lineChartOptions} />
         </ChartCard>
         <ChartCard title="Registrations Overview">
+          {/* @ts-expect-error null */}
           <Line data={registrationsData} options={lineChartOptions} />
         </ChartCard>
-      </div> */}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white h-fit rounded-xl shadow p-4">
@@ -196,7 +201,7 @@ export default function AdminDashboardPage() {
               <div className='relative min-h-[120px] !overflow-x-auto w-full'>
                 <table className="min-w-max w-full">
                   <thead>
-                    <tr className='bg-gray-50 border-b border-[#D9D9D9]'>
+                    <tr className='rounded-t-[12px] bg-gray-50 border-b border-[#D9D9D9]'>
                       <th className='text-[#6B6968] md:!min-w-0 !min-w-[50px] !text-left font-medium text-sm py-[14px] pl-[19px]'>Title</th>
                 <th className='text-[#6B6968] md:!min-w-0 !min-w-[150px] !text-left font-medium text-sm py-[14px]'>Downloads</th>
               </tr>

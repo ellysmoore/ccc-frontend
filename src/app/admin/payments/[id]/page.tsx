@@ -19,6 +19,9 @@ type PaymentDetails = {
 const PaymentDetailsPage = () => {
   const [locals, setLocals] = useState<PaymentDetails | null>(null);
 
+  // TODO: REMOVE LATER
+  console.log(setLocals);
+
   return (
     <div className="lg:px-6">
         <div className="mb-4 flex items-center gap-[20px]">

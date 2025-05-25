@@ -28,7 +28,7 @@ export const MessageGrid = ({
 
   if (loading) {
     return (
-      <div className="flex justify-center">
+      <div className="flex py-12 justify-center">
         <Loader size="medium" />
       </div>
     );

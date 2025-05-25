@@ -89,12 +89,12 @@ export default function CartPage() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-10 w-full h-full overflow-y-auto bg-[#F9FAFB] rounded-[10px]">
+    <div className="container mx-auto px-4 py-6 w-full h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl">
       <h2 className="text-xl font-semibold text-[#0D0D12] border-b border-gray-300 pb-3 mb-4">
         Cart
       </h2>
 
-      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 min-h-[200px]">
+      <div className="bg-[#FAFAFA] border border-[#F4F7F8] rounded-xl shadow-sm p-4 md:p-6 min-h-[200px]">
         {loading ? (
           <table className="min-w-full text-sm">
             <thead className="bg-gray-100 text-gray-600 text-left uppercase">
@@ -143,13 +143,13 @@ export default function CartPage() {
                     <td className="p-4 font-semibold text-gray-800">
                       ₦ {item.price.toLocaleString()}
                     </td>
-                    <td className="p-4 flex items-center justify-center">
+                    <td className="p-4">
                       <button
                         onClick={() => removeFromCart(index, item.message_id)}
                         className="text-red-500 hover:text-red-600 transition"
                         aria-label={`Remove ${item.topic} from cart`}
                       >
-                        <FaTrash size={18} />
+                        <FaTrash size={16} />
                       </button>
                     </td>
                   </tr>

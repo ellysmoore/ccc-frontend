@@ -38,6 +38,9 @@ export default function EditMessagePage() {
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [centres, setCentres] = useState([]);
+
+  // TODO: REMOVE LATER
+  console.log(setSpeakers, setCategories, setServices, setCentres);
   
   const [form, setForm] = useState<{
     topic: string;

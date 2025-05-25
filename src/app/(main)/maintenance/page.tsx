@@ -30,7 +30,7 @@ const MaintenanceIndexPage = () => {
   }, []);
 
   return (
-    <section className="md:h-full w-full flex items-center justify-center bg-white text-gray-800">
+    <section className="md:h-full w-full flex items-center justify-center border-1 border-gray-200 shadow-md rounded-2xl bg-white text-gray-800">
       <article className="max-w-2xl flex flex-col gap-[2px] md:gap-[8px] h-fit">
         <h1 className="!text-f24 md:!text-f30 font-bold text-center mb-4 text-[#0D0D12]">
           We’ll be back in <span className="text-orange-600">{timeLeft}</span>!

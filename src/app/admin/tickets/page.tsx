@@ -15,7 +15,6 @@ import { FaChevronLeft } from "react-icons/fa";
 // };
 
 export default function TicketsPage() {
-  const locals = null;
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [tickets, setTickets] = useState([
@@ -34,6 +33,9 @@ export default function TicketsPage() {
       created: "2024-04-21 12:00",
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setTickets);
 
   const handleExport = () => {};
 

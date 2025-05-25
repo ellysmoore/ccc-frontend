@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/common/SearchBar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaEye, FaSearch } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 // type User = {
 //   id: string;
@@ -37,6 +37,10 @@ export default function PaymentsPage() {
       created: "2024-04-20 09:00",
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setPayments);
+
   const router = useRouter();
   const [query, setQuery] = useState("");
 

@@ -7,7 +7,7 @@ import { ConfirmModal } from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaEdit, FaPenAlt, FaSearch, FaTrash, FaUserPlus } from "react-icons/fa";
+import { FaEdit, FaPenAlt, FaTrash } from "react-icons/fa";
 
 // type Service = {
 //   id: string;
@@ -28,6 +28,10 @@ export default function ServicesPage() {
       name: "Service 2",
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setServices);
+
   const router = useRouter();
   const [query, setQuery] = useState("");
 

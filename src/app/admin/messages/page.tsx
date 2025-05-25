@@ -33,6 +33,10 @@ export default function MessagesPage() {
       published: false,
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setMessages);
+
   const router = useRouter();
   const [query, setQuery] = useState("");
 

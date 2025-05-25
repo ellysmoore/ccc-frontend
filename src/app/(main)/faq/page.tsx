@@ -10,7 +10,7 @@ export default function FaqAndMessageCodes() {
   const [openFaq, setOpenFaq] = useState<string>('1');
 
   return (
-    <main className="h-full overflow-y-auto rounded-[10px] bg-[#F5F5F5] w-full container mx-auto px-4 py-10">
+    <main className="h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full container mx-auto px-4 py-10">
       <section className='w-full flex flex-col'>
         <h2 className='font-[500] border-b pb-[10px] border-gray-300 w-full flex items-center text-[#0D0D12] text-f18'>
           Frequency Asked Questions

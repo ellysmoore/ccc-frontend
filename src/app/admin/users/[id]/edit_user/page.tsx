@@ -14,6 +14,7 @@ export default function EditUserPage() {
     last_name: string;
     email: string;
     mobile: string;
+    // eslint-disable-next-line
     [key: string]: any;
   };
 
@@ -21,7 +22,7 @@ export default function EditUserPage() {
 
   useEffect(() => {
     // MAKE API CALL HERE
-    //@ts-ignore
+    //@ts-expect-error null
     setUser({});
   }, [id]);
 

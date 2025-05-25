@@ -9,6 +9,8 @@ import { useState } from "react";
 
 export default function NewBulkPage() {
   const [categories, setCategories] = useState([]);
+  // TODO: REMOVE LATER
+  console.log(setCategories);
   
   const [form, setForm] = useState({
     category: [],

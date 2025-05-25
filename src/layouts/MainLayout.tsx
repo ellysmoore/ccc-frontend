@@ -42,7 +42,7 @@ const MainLayout = ({
   return (
     <div className='bg-white overflow-y-auto min-h-screen w-full flex flex-col items-center justify-between'>
       <Navbar user={user} />
-      <main className='px-[16px] lg:px-[32px] w-full max-w-[1500px] grow-1 h-full md:h-[calc(100vh-208px)] mt-[90px] lg:mt-[138px] flex flex-col'>
+      <main className='px-[16px] lg:px-[32px] w-full max-w-[1500px] grow-1 h-full md:h-[calc(100vh-208px)] mt-[90px] lg:mt-[148px] mb-[10px] flex flex-col'>
         {children}
       </main>
       <Footer />

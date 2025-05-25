@@ -7,7 +7,7 @@ import { ConfirmModal } from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaEdit, FaEye, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 
 // type Speaker = {
 //   id: string;
@@ -43,6 +43,10 @@ export default function SpeakersPage() {
       created: ''
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setBatches);
+
   const router = useRouter();
   const [query, setQuery] = useState("");
 

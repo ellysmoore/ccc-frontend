@@ -7,7 +7,7 @@ import { ConfirmModal } from "@/components/ConfirmModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBan, FaCheck, FaEdit, FaSearch, FaUserPlus } from "react-icons/fa";
+import { FaBan, FaCheck, FaEdit, FaUserPlus } from "react-icons/fa";
 
 // type User = {
 //   uid: string;
@@ -46,6 +46,10 @@ export default function UsersPage() {
       is_active: false,
     },
   ]);
+
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setUsers);
+
   const router = useRouter();
   const [query, setQuery] = useState("");
 

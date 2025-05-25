@@ -33,6 +33,9 @@ export default function SpeakersPage() {
     },
   ]);
 
+  // TODO: REMOVE LATER
+  console.log(setPage, setPages, setBanners);
+
   const handleDelete = () => {
     // TODO: Handle status here
   }

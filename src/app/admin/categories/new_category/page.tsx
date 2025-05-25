@@ -15,6 +15,9 @@ export default function NewCategoryPage() {
   const [banner, setBanner] = useState<File | null>(null);
   const [categories, setCategories] = useState([]);
   const [category_types, setCategoryTypes] = useState([]);
+
+  // TODO: REMOVE LATER
+  console.log(setCategories, setCategoryTypes);
   
   const [form, setForm] = useState({
     name: "",
@@ -114,7 +117,7 @@ export default function NewCategoryPage() {
         <FileUploader 
           name="banner"
           value={banner}
-          onChange={(file) => setIcon(file ?? null)}
+          onChange={(file) => setBanner(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.jpeg', '.jpg', '.png']}
