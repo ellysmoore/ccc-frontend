@@ -9,10 +9,19 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function EditUserPage() {
   const { id } = useParams();
-  const [user, setUser] = useState(null);
+  type User = {
+    first_name: string;
+    last_name: string;
+    email: string;
+    mobile: string;
+    [key: string]: any;
+  };
+
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE
+    //@ts-ignore
     setUser({});
   }, [id]);
 

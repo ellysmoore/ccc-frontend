@@ -41,7 +41,7 @@ export default function NewMessagePage() {
         <FileUploader 
           name="file"
           value={file}
-          onChange={(file) => setFile(file)}
+          onChange={(file) => setFile(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['image/*']}

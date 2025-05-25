@@ -14,7 +14,12 @@ export default function AdminDashboardPage() {
   const [mediaCount, setMediaCount] = useState('NA')
   const [downloadsCount, setDownloadsCount] = useState('NA')
   const [ticketsCount, setTicketsCount] = useState('NA')
-  const [downloads, setDownloads] = useState([]);
+  interface Download {
+    topic: string;
+    downloads: number;
+  }
+
+  const [downloads, setDownloads] = useState<Download[]>([]);
 
   const DASHBOARD_STATS = [
     { title: 'Total Users', value: usersCount, icon: <FaUsers className='text-2xl text-gray-300' />, href: '/admin/users' },
@@ -23,8 +28,22 @@ export default function AdminDashboardPage() {
     { title: 'Total Tickets', value: ticketsCount, icon: <FaTicketAlt className='text-2xl text-gray-300' />, href: '/admin/batches' },
   ];
 
-  const [downloadsData, setDownloadsData] = useState({ labels: [], datasets: [{ label: 'Downloads', data: [] }] })
-  const [registrationsData, setRegistrationsData] = useState({ labels: [], datasets: [{ label: 'Registrations', data: [] }] })
+  interface ChartDataset {
+    label: string;
+    data: number[];
+    borderColor?: string;
+    backgroundColor?: string;
+    tension?: number;
+    pointRadius?: number;
+  }
+
+  interface ChartData {
+    labels: string[];
+    datasets: ChartDataset[];
+  }
+
+  const [downloadsData, setDownloadsData] = useState<ChartData>({ labels: [], datasets: [{ label: 'Downloads', data: [] }] })
+  const [registrationsData, setRegistrationsData] = useState<ChartData>({ labels: [], datasets: [{ label: 'Registrations', data: [] }] })
 
   useEffect(() => {
     // TODO: CALL API REQUEST HERE
@@ -97,29 +116,49 @@ export default function AdminDashboardPage() {
     maintainAspectRatio: false,
     layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
     scales: {
-      xAxes: [{ time: { unit: 'date' }, gridLines: { display: false, drawBorder: false }, ticks: { maxTicksLimit: 12 } }],
-      yAxes: [{
-        // @ts-expect-error null
-        ticks: { maxTicksLimit: 5, padding: 10, callback: (value, index, values) => Number(value).toLocaleString() },
-        gridLines: { color: "rgb(234, 236, 244)", zeroLineColor: "rgb(234, 236, 244)", drawBorder: false, borderDash: [2], zeroLineBorderDash: [2] }
-      }]
+      x: {
+        type: 'timeseries',
+        time: { unit: 'month' },
+        grid: { display: false, drawBorder: false },
+        ticks: { maxTicksLimit: 12 }
+      },
+      y: {
+        ticks: {
+          maxTicksLimit: 5,
+          padding: 10,
+          callback: (value: any) => Number(value).toLocaleString()
+        },
+        grid: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }
     },
-    legend: { display: false },
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)", bodyFontColor: "#858796",
-      titleMarginBottom: 10, titleFontColor: '#6e707e', titleFontSize: 14,
-      borderColor: '#dddfeb', borderWidth: 1,
-      xPadding: 15, yPadding: 15,
-      displayColors: false,
-      intersect: false,
-      mode: 'index',
-      caretPadding: 10,
-      // callbacks: {
-      //   label: (tooltipItem, chart) => {
-      //     let datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-      //     return datasetLabel + ':' + Number(tooltipItem.yLabel).toLocaleString();
-      //   }
-      // }
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        bodyColor: "#858796",
+        titleMarginBottom: 10,
+        titleColor: '#6e707e',
+        titleFont: { size: 14 },
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        padding: 15,
+        displayColors: false,
+        intersect: false,
+        mode: 'index' as const,
+        caretPadding: 10,
+        // callbacks: {
+        //   label: (context) => {
+        //     let datasetLabel = context.dataset.label || '';
+        //     return datasetLabel + ':' + Number(context.parsed.y).toLocaleString();
+        //   }
+        // }
+      }
     }
   }
   
@@ -141,14 +180,14 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ChartCard title="Downloads Overview">
           <Line data={downloadsData} options={lineChartOptions} />
         </ChartCard>
         <ChartCard title="Registrations Overview">
           <Line data={registrationsData} options={lineChartOptions} />
         </ChartCard>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white h-fit rounded-xl shadow p-4">

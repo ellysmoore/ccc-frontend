@@ -10,7 +10,14 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function EditCentrePage() {
   const { id } = useParams();
-  const [centre, setCentre] = useState(null);
+  type Centre = {
+    name?: string;
+    slug?: string;
+    address?: string;
+    directions?: string;
+  };
+
+  const [centre, setCentre] = useState<Centre>({});
 
   useEffect(() => {
     // MAKE API CALL HERE

@@ -4,8 +4,20 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 
+type PaymentDetails = {
+  post_data?: string;
+  user_id?: string | number;
+  last_name?: string;
+  first_name?: string;
+  email?: string;
+  amount?: number | string;
+  payment_status_id?: string | number;
+  response_data?: string;
+  completed?: boolean;
+};
+
 const PaymentDetailsPage = () => {
-  const [locals, setLocals] = useState(null);
+  const [locals, setLocals] = useState<PaymentDetails | null>(null);
 
   return (
     <div className="lg:px-6">
@@ -37,13 +49,13 @@ const PaymentDetailsPage = () => {
                 <div className="flex flex-col gap-[2px]">
                   <div className="text-left text-[13px] text-[#6B6968] w-full">User</div>
                   <div className="text-left text-[15px] text-[#222] w-full">
-                    {locals?.user_id ? (
+                    {/* {locals?.user_id ? (
                       <Link href={`/admin/users/${uid}`} className="text-orange-500 underline">
                         {locals?.last_name} {locals?.first_name}
                       </Link>
                     ) : (
                       "Guest"
-                    )}
+                    )} */}
                   </div>
                 </div>
 

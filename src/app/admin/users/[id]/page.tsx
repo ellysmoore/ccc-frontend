@@ -6,10 +6,24 @@ import { FaChevronLeft, FaEye, FaWallet } from 'react-icons/fa';
 import { AdminFundWalletModal } from '@/components/AdminFundWalletModal';
 import { Button } from '@/components/Button';
 
+type User = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile: string;
+  balance: number;
+  last_login: string;
+  is_active: boolean;
+  is_administrator: boolean;
+  send_newsletter: boolean;
+  created: string;
+  // Add any other fields as needed
+};
+
 export default function UserDetailsPage() {
-  const [user, setUser] = useState(null);
-  const [downloads, setDownloads] = useState(null);
-  const [payments, setPayments] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [downloads, setDownloads] = useState<any[] | null>(null);
+  const [payments, setPayments] = useState<any[] | null>(null);
 
   const [showModal, setShowModal] = useState('');
 

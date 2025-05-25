@@ -11,7 +11,14 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function NewBatchPage() {
   const { id } = useParams();
-  const [batch, setBatch] = useState(null);
+  type Batch = {
+    numbers?: string;
+    price?: string;
+    info?: string;
+    title?: string;
+  };
+
+  const [batch, setBatch] = useState<Batch | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE

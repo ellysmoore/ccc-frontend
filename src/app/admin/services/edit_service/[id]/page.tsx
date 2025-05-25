@@ -9,7 +9,7 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function EditServicePage() {
   const { id } = useParams();
-  const [service, setService] = useState(null);
+  const [service, setService] = useState<{ name?: string } | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE

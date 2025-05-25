@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Button } from "@/components/Button";
@@ -13,7 +14,17 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function NewCategoryPage() {
   const { id } = useParams();
-  const [category, setCategory] = useState(null);
+  type Category = {
+    name?: string;
+    category?: string;
+    description?: string;
+    category_type?: string;
+    featured?: boolean;
+    start_date?: string;
+    end_date?: string;
+  };
+
+  const [category, setCategory] = useState<Category | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE
@@ -22,8 +33,8 @@ export default function NewCategoryPage() {
 
   const [icon, setIcon] = useState<File | null>(null);
   const [banner, setBanner] = useState<File | null>(null);
-  const [categories, setCategories] = useState([]);
-  const [category_types, setCategoryTypes] = useState([]);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [category_types, setCategoryTypes] = useState<{ id: string; name: string; category_type?: string }[]>([]);
   
   const [form, setForm] = useState({
     name: "",
@@ -126,7 +137,7 @@ export default function NewCategoryPage() {
         <FileUploader 
           name="icon"
           value={icon}
-          onChange={(file) => setIcon(file)}
+          onChange={(file) => setIcon(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.jpeg', '.jpg', '.png']}
@@ -135,7 +146,7 @@ export default function NewCategoryPage() {
         <FileUploader 
           name="banner"
           value={banner}
-          onChange={(file) => setIcon(file)}
+          onChange={(file) => setIcon(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.jpeg', '.jpg', '.png']}

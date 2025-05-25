@@ -85,7 +85,7 @@ export default function TicketsPage() {
                   key={index}
                   className='border-b border-[#F5F5F5] smooth'
                     >
-                      <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{locals?.batch_no}</td>
+                      <td className='md:!min-w-0 !min-w-[50px] pl-5 pt-[14px] pb-[13px] text-sm text-dark font-medium'>{index + 1}</td>
                   <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.pin}</td>
                   <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.credit}</td>
                   <td className='md:!min-w-0 !min-w-[150px] pt-[14px] pb-[13px] text-sm text-dark font-medium'>{ticket.is_used ? "Used" : "Unused"}</td>

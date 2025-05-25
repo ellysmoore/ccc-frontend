@@ -14,7 +14,20 @@ import { FaChevronLeft  } from "react-icons/fa";
 export default function EditMessagePage() {
   const { id } = useParams();
   const [file, setFile] = useState<File | null>(null);
-  const [message, setMessage] = useState(null);
+  type MessageType = {
+    topic?: string;
+    speaker?: string;
+    centre?: string[];
+    service?: string;
+    category?: string[];
+    description?: string;
+    price?: string;
+    is_free?: boolean;
+    when?: string;
+    // add other fields as needed
+  };
+
+  const [message, setMessage] = useState<MessageType | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE
@@ -26,7 +39,17 @@ export default function EditMessagePage() {
   const [services, setServices] = useState([]);
   const [centres, setCentres] = useState([]);
   
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    topic: string;
+    speaker: string;
+    centre: string[];
+    service: string;
+    category: string[];
+    description: string;
+    price: string;
+    is_free: boolean;
+    when: string;
+  }>({
     topic: "",
     speaker: "",
     centre: [],
@@ -115,7 +138,7 @@ export default function EditMessagePage() {
         <FileUploader 
           name="file"
           value={file}
-          onChange={(file) => setFile(file)}
+          onChange={(file) => setFile(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.pdf', '.mp3']}
@@ -135,10 +158,10 @@ export default function EditMessagePage() {
         />
         <SelectElement 
           name="category"
-          value={form?.category}
+          value={categoryList.filter(option => form?.category.includes(option.value))}
           multiple
           label="Category"
-          onChange={(value) => handleChange('category', value)}
+          onChange={(value) => handleChange('category', Array.isArray(value) ? value.map((v) => v.value) : [])}
           placeholder="Select categories"
           fieldClassName="!rounded-[12px] !py-[13px]"
           required
@@ -156,10 +179,10 @@ export default function EditMessagePage() {
         />
         <SelectElement 
           name="centre"
-          value={form?.centre}
+          value={centreList.filter(option => form?.centre.includes(option.value))}
           multiple
           label="Centre"
-          onChange={(value) => handleChange('centre', value)}
+          onChange={(value) => handleChange('centre', Array.isArray(value) ? value.map((v) => v.value) : [])}
           placeholder="Select centre"
           fieldClassName="!rounded-[12px] !py-[13px]"
           required

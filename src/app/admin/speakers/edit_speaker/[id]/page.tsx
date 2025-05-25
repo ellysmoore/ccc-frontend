@@ -10,7 +10,15 @@ import { FaChevronLeft } from "react-icons/fa";
 
 export default function EditSpeakerPage() {
   const { id } = useParams();
-  const [speaker, setSpeaker] = useState(null);
+  type Speaker = {
+    title?: string;
+    name?: string;
+    short_bio?: string;
+    long_bio?: string;
+    // add other fields as needed
+  };
+
+  const [speaker, setSpeaker] = useState<Speaker | null>(null);
 
   useEffect(() => {
     // MAKE API CALL HERE

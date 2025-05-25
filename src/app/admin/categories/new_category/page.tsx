@@ -105,7 +105,7 @@ export default function NewCategoryPage() {
         <FileUploader 
           name="icon"
           value={icon}
-          onChange={(file) => setIcon(file)}
+          onChange={(file) => setIcon(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.jpeg', '.jpg', '.png']}
@@ -114,7 +114,7 @@ export default function NewCategoryPage() {
         <FileUploader 
           name="banner"
           value={banner}
-          onChange={(file) => setIcon(file)}
+          onChange={(file) => setIcon(file ?? null)}
           required
           uploadClassName="!rounded-[12px]"
           allowedFileTypes={['.jpeg', '.jpg', '.png']}
