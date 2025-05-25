@@ -53,7 +53,7 @@ export default function PaymentsPage() {
 
   const handleQuery = (value: string) => {
     setQuery(value);
-    router.push(`/admin/services?q=${value}`);
+    router.push(`/admin/payments?q=${value}`);
   }
 
   return (

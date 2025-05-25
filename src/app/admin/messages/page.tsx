@@ -49,7 +49,7 @@ export default function MessagesPage() {
 
   const handleQuery = (value: string) => {
     setQuery(value);
-    router.push(`/admin/services?q=${value}`);
+    router.push(`/admin/messages?q=${value}`);
   }
 
   const handleDelete = () => {

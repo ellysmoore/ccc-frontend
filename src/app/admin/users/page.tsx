@@ -62,7 +62,7 @@ export default function UsersPage() {
 
   const handleQuery = (value: string) => {
     setQuery(value);
-    router.push(`/admin/services?q=${value}`);
+    router.push(`/admin/users?q=${value}`);
   }
 
   const handleStatus = () => {

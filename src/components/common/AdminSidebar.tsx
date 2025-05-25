@@ -29,7 +29,7 @@ export default function AdminSidebar({ open, setToggle } : { open: boolean, setT
           exit={{ display: 'none', height: 0 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
-          className={`${!open ? '!hidden' : 'block'} w-full lg:!h-auto lg:!block hidden fixed z-[70] overflow-y-auto top-[46px] lg:top-0 bottom-0 left-0 lg:w-64 bg-white text-[#222] min-h-screen p-4 space-y-2`}
+          className={`${!open ? '!hidden' : 'block'} w-full lg:!h-auto lg:!block hidden fixed z-[70] overflow-y-auto top-[46px] lg:top-0 bottom-0 left-0 lg:w-64 bg-white text-[#222] min-h-[calc(100vh-46px)] lg:min-h-screen p-4 space-y-2`}
         >
           {ADMIN_MENU_ITEMS.map((item) => {
             const isActive = pathname.includes(item.key);

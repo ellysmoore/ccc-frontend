@@ -59,7 +59,7 @@ export default function SpeakersPage() {
 
   const handleQuery = (value: string) => {
     setQuery(value);
-    router.push(`/admin/services?q=${value}`);
+    router.push(`/admin/batches?q=${value}`);
   }
 
   const handleDelete = () => {

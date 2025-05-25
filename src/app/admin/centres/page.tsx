@@ -47,7 +47,7 @@ export default function CentresPage() {
 
   const handleQuery = (value: string) => {
     setQuery(value);
-    router.push(`/admin/services?q=${value}`);
+    router.push(`/admin/centres?q=${value}`);
   }
 
   const handleDelete = () => {
