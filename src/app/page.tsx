@@ -66,7 +66,7 @@ const MainIndexPage = () => {
         {/* Main Content Area */}
         <div className="relative flex h-full flex-col-reverse md:flex-row gap-4 md:gap-6 transition-all duration-300">
           {/* Message Feed Panel */}
-          <div className="h-full flex-1 overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl p-4 md:p-6">
+          <div className="h-full flex-1 group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl p-4 md:p-6">
             {/* @ts-expect-error-null */}
             <MessageFeed user={user} />
           </div>
@@ -74,7 +74,7 @@ const MainIndexPage = () => {
           {/* Filters Sidebar */}
           <aside
             className={`
-              md:static absolute top-0 right-0 z-20 h-full w-full md:max-w-sm overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl p-4 md:p-6
+              md:static absolute top-0 right-0 z-20 h-full w-full md:max-w-sm group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl p-4 md:p-6
               transition-transform duration-300 ease-in-out
               ${showSidebar ? 'translate-x-0' : 'translate-x-full'}
               md:translate-x-0

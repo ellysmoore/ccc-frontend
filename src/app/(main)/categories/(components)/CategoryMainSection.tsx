@@ -51,7 +51,7 @@ export const CategoryMainSection = ({
 
   return (
     <>
-      <div className="h-full w-full md:w-2/3 overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl px-6 py-5 space-y-6">
+      <div className="h-full w-full md:w-2/3 group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl px-6 py-5 space-y-6">
         {/* Title and Sorting */}
         <div className="flex justify-between items-center flex-wrap gap-3">
           <div className="flex items-center text-gray-800 font-medium text-lg">

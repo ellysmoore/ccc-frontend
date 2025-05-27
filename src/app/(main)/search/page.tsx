@@ -69,7 +69,7 @@ const SearchIndexPage = () => {
   return (
     <>
       <div className="flex h-full flex-col md:flex-row gap-[12px]">
-        <div className="h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full md:w-2/3 py-6 md:py-[15px] px-[20px] md:px-[25px]">
+        <div className="h-full group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full md:w-2/3 py-6 md:py-[15px] px-[20px] md:px-[25px]">
           <div className="flex flex-col gap-[10px]">
             <h2 className="text-f16 md:text-f18 font-semibold text-gray-900">
               Search Results
@@ -82,7 +82,7 @@ const SearchIndexPage = () => {
           <MessageGrid messages={messages} loading={loading} />
         </div>
 
-        <div className="h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full md:w-1/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
+        <div className="h-full group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full md:w-1/3 py-[12px] md:py-[15px] px-[20px] md:px-[25px]">
           <SearchSidebar selected={selected} toggleFilter={toggleFilter} />
         </div>
       </div>

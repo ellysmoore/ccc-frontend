@@ -36,7 +36,7 @@ const LibraryIndexPage = () => {
         More payment options
       </button> */}
 
-      <div className="h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full container mx-auto px-4 py-6">
+      <div className="h-full group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full container mx-auto px-4 py-6">
         <h2 className='font-[500] border-b pb-[10px] border-gray-300 w-full flex items-center text-[#0D0D12] text-f18'>
           Library
         </h2>
