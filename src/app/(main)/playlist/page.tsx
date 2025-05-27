@@ -35,7 +35,7 @@ const PlaylistIndexPage = () => {
 
   return (
     <>
-      <div className="w-full h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl px-4 py-6 container mx-auto">
+      <div className="w-full h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl px-4 py-6 container mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-300 pb-3 mb-6">
           <h2 className="text-[#0D0D12] text-lg font-medium">Playlist</h2>

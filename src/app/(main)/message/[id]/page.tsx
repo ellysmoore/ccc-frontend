@@ -44,7 +44,7 @@ const MessageIndexPage = () => {
 
       <div className="flex h-full flex-col md:flex-row gap-[12px]">
         {/* Main Content */}
-        <div className="h-full overflow-y-auto bg-white w-full pt-[12px] md:pt-[15px] px-[12px] md:px-[15px] md:w-3/4 flex flex-col gap-6 border-1 border-gray-200 shadow-md rounded-2xl">
+        <div className="h-full overflow-hidden hover:overflow-y-auto bg-white w-full pt-[12px] md:pt-[15px] px-[12px] md:px-[15px] md:w-3/4 flex flex-col gap-6 border-1 border-gray-200 shadow-md rounded-2xl">
           <div className="bg-white min-h-64 rounded-[14px] shadow overflow-hidden flex flex-col md:flex-row">
             <div className="w-full md:w-1/3 relative h-64 md:h-64">
               <Image
@@ -135,7 +135,7 @@ const MessageIndexPage = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl bg-white w-full py-4 px-4 md:py-5 md:px-5 md:w-1/4 flex flex-col gap-6">
+        <div className="h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl bg-white w-full py-4 px-4 md:py-5 md:px-5 md:w-1/4 flex flex-col gap-6">
           <SermonSection
             title={
               <div className="flex items-center gap-2 text-white-100 font-medium">

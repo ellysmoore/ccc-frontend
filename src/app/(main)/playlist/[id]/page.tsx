@@ -24,7 +24,7 @@ const SinglePlaylistIndexPage = () => {
     <>
       <div className="flex h-full flex-col md:flex-row gap-[12px]">
         {/* Main Content */}
-        <div className="h-full overflow-y-auto border-2 border-[#F4F7F8] shadow-md rounded-2xl w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
+        <div className="h-full overflow-hidden hover:overflow-y-auto border-2 border-[#F4F7F8] shadow-md rounded-2xl w-full py-[12px] md:py-[15px] px-[20px] md:px-[25px] md:w-3/4 flex flex-col gap-6">
           <div className="bg-white min-h-[180px] md:min-h-[200px] rounded-[14px] shadow overflow-hidden flex flex-col md:flex-row">
             <div className="flex items-center justify-center w-full md:w-1/3 relative h-full bg-gray-50">
               <BiSolidPlaylist size={80} className="text-gray-300" />
@@ -103,7 +103,7 @@ const SinglePlaylistIndexPage = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full py-[12px] md:py-[15px] px-[12px] md:px-[15px] md:w-1/4 flex flex-col gap-6">
+        <div className="h-full overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl w-full py-[12px] md:py-[15px] px-[12px] md:px-[15px] md:w-1/4 flex flex-col gap-6">
           <SermonSection
             title={
               <div className="flex items-center gap-[5px]">

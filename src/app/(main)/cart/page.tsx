@@ -89,7 +89,7 @@ export default function CartPage() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 w-full h-full overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl">
+    <div className="container mx-auto px-4 py-6 w-full h-full group overflow-hidden hover:overflow-y-auto border-1 border-gray-200 shadow-md rounded-2xl">
       <h2 className="text-xl font-semibold text-[#0D0D12] border-b border-gray-300 pb-3 mb-4">
         Cart
       </h2>
