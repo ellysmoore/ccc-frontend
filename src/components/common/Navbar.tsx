@@ -11,7 +11,7 @@ import { FundWalletModal } from "../FundWalletModal";
 import { LoginModal } from "../LoginModal";
 import { SignUpModal } from "../SignUpModal";
 import { useCommonStore } from "@/store/commonStore";
-import { User } from "@/types";
+// import { User } from "@/types";
 import { apiRequest, removeCookie } from "@/utils";
 import { SearchBar } from "./SearchBar";
 import { MENU_DATA } from "@/data/navBar";
@@ -19,284 +19,298 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { PasswordResetModal } from "../PasswordResetModal";
 import { Tooltip } from "react-tooltip";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
-export const Navbar = ({ user }: { user?: User }) => {
-  const [openModal, setOpenModal] = useState("");
-  const { refreshBalance, refreshCart } = useCommonStore((state) => state);
-  const [walletBalance, setWalletBalance] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
-  const pathname = usePathname();
-  const [openSidebar, setOpenSidebar] = useState(false);
+export const Navbar = () =>
+  // { user }: { user?: User }
+  {
+    const { user } = useSelector((state: RootState) => state.auth);
 
-  const loadWalletBalance = async () => {
-    try {
-      const response = await apiRequest({ url: "/wallet/balance" });
-      setWalletBalance(response.balance);
-    } catch (error) {
-      console.error("Error loading wallet balance:", error);
-    }
-  };
+    const [openModal, setOpenModal] = useState("");
+    const { refreshBalance, refreshCart } = useCommonStore((state) => state);
+    const [walletBalance, setWalletBalance] = useState(0);
+    const [cartCount, setCartCount] = useState(0);
+    const pathname = usePathname();
+    const [openSidebar, setOpenSidebar] = useState(false);
 
-  const loadCart = async () => {
-    try {
-      const response = await apiRequest({ url: "/cart" });
-      setCartCount(response.messages?.length);
-    } catch (error) {
-      console.error("Error loading cart:", error);
-    }
-  };
+    const loadWalletBalance = async () => {
+      try {
+        const response = await apiRequest({ url: "/wallet/balance" });
+        setWalletBalance(response.balance);
+      } catch (error) {
+        console.error("Error loading wallet balance:", error);
+      }
+    };
 
-  const variants = {
-    opacity: { opacity: [0, 1], transition: { duration: 0.2 } },
-    slideIn: {
-      top: [-350, 60],
-      transition: { duration: 0.2, delay: 0.1, ease: [0.1, 0.79, 0.36, 0.96] },
-    },
-    slideInAndOpacity: {
-      top: [-350, 60],
-      opacity: [0, 1],
-      transition: { duration: 0.2, delay: 0.1, ease: [0.1, 0.79, 0.36, 0.96] },
-    },
-  };
+    const loadCart = async () => {
+      try {
+        const response = await apiRequest({ url: "/cart" });
+        setCartCount(response.messages?.length);
+      } catch (error) {
+        console.error("Error loading cart:", error);
+      }
+    };
 
-  useEffect(() => {
-    loadCart();
-    loadWalletBalance();
-  }, [refreshBalance, refreshCart]);
+    const variants = {
+      opacity: { opacity: [0, 1], transition: { duration: 0.2 } },
+      slideIn: {
+        top: [-350, 60],
+        transition: {
+          duration: 0.2,
+          delay: 0.1,
+          ease: [0.1, 0.79, 0.36, 0.96],
+        },
+      },
+      slideInAndOpacity: {
+        top: [-350, 60],
+        opacity: [0, 1],
+        transition: {
+          duration: 0.2,
+          delay: 0.1,
+          ease: [0.1, 0.79, 0.36, 0.96],
+        },
+      },
+    };
 
-  const handleLogout = () => {
-    removeCookie("access_token");
-    // TODO: FIND A WAY TO REFRESH PAGE WITHOUT RELOADING
-  };
+    useEffect(() => {
+      loadCart();
+      loadWalletBalance();
+    }, [refreshBalance, refreshCart]);
 
-  const handleModal = (path: string) => {
-    setOpenModal(path);
-  };
+    const handleLogout = () => {
+      removeCookie("cc_token");
+      // TODO: FIND A WAY TO REFRESH PAGE WITHOUT RELOADING
+    };
 
-  const activePath = (link: NavLinkProps) => {
-    return Boolean(link?.path && pathname?.includes(link?.path));
-  };
+    const handleModal = (path: string) => {
+      setOpenModal(path);
+    };
 
-  const handlePathlessNav = (link: NavLinkProps) => {
-    handleModal(link?.slug);
-  };
+    const activePath = (link: NavLinkProps) => {
+      return Boolean(link?.path && pathname?.includes(link?.path));
+    };
 
-  const menuContents = () => {
+    const handlePathlessNav = (link: NavLinkProps) => {
+      handleModal(link?.slug);
+    };
+
+    // const { user, loading } = useSelector((state: RootState) => state.auth);
+
+    const menuContents = () => {
+      return (
+        <>
+          {MENU_DATA?.map((link: NavLinkProps) => {
+            const canShow =
+              (user && link.showFor?.includes("USER")) ||
+              (!user && link.showFor?.includes("NON_USER"));
+
+            if (!canShow) return null;
+
+            return link?.path ? (
+              <Link
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content="Hello world!"
+                key={link?.id}
+                href={link?.path}
+                className={`text-f16 lg:text-f15 relative hover:!bg-[#F6F8FA] lg:border-[2px] !border-[#F4F7F8] hover:!text-[#0D0D12] rounded-full cursor-pointer w-full lg:w-fit flex items-center lg:gap-[8px] py-[8px] lg:py-[8px] px-[18px] lg:px-[12px]
+                  ${
+                    activePath(link)
+                      ? "!font-[700] !bg-[#EEF0F3] !text-[#0D0D12]"
+                      : "font-[600] lg:!bg-[#F4F7F8] !text-[#0D0D12]"
+                  }
+                `}
+              >
+                <div className="w-fit">{link?.label}</div>
+              </Link>
+            ) : (
+              <button
+                type="button"
+                key={link?.id}
+                onClick={() => handlePathlessNav(link)}
+                className={`text-f16 lg:text-f15 relative hover:!bg-[#F6F8FA] lg:border-[2px] !border-[#F4F7F8] hover:!text-[#0D0D12] rounded-full cursor-pointer w-full lg:w-fit flex items-center lg:gap-[8px] py-[8px] lg:py-[8px] px-[18px] lg:px-[12px]
+                  ${
+                    activePath(link)
+                      ? "!font-[700] !bg-[#EEF0F3] !text-[#0D0D12]"
+                      : "font-[600] lg:!bg-[#F4F7F8] !text-[#0D0D12]"
+                  }
+                `}
+              >
+                <div className="w-fit">{link?.label}</div>
+              </button>
+            );
+          })}
+        </>
+      );
+    };
+
     return (
       <>
-        {MENU_DATA?.map((link: NavLinkProps) => {
-          const canShow =
-            ((user?.is_administrator || user?.is_super_admin) &&
-              link.showFor?.includes("ADMIN")) ||
-            (user && link.showFor?.includes("USER")) ||
-            (!user && link.showFor?.includes("NON_USER"));
-
-          if (!canShow) return null;
-
-          return link?.path ? (
-            <Link
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content="Hello world!"
-              key={link?.id}
-              href={link?.path}
-              className={`text-f16 lg:text-f15 relative hover:!bg-[#F6F8FA] lg:border-[2px] !border-[#F4F7F8] hover:!text-[#0D0D12] rounded-full cursor-pointer w-full lg:w-fit flex items-center lg:gap-[8px] py-[8px] lg:py-[8px] px-[18px] lg:px-[12px]
-                  ${
-                    activePath(link)
-                      ? "!font-[700] !bg-[#EEF0F3] !text-[#0D0D12]"
-                      : "font-[600] lg:!bg-[#F4F7F8] !text-[#0D0D12]"
-                  }
-                `}
-            >
-              <div className="w-fit">{link?.label}</div>
-            </Link>
-          ) : (
-            <button
-              type="button"
-              key={link?.id}
-              onClick={() => handlePathlessNav(link)}
-              className={`text-f16 lg:text-f15 relative hover:!bg-[#F6F8FA] lg:border-[2px] !border-[#F4F7F8] hover:!text-[#0D0D12] rounded-full cursor-pointer w-full lg:w-fit flex items-center lg:gap-[8px] py-[8px] lg:py-[8px] px-[18px] lg:px-[12px]
-                  ${
-                    activePath(link)
-                      ? "!font-[700] !bg-[#EEF0F3] !text-[#0D0D12]"
-                      : "font-[600] lg:!bg-[#F4F7F8] !text-[#0D0D12]"
-                  }
-                `}
-            >
-              <div className="w-fit">{link?.label}</div>
-            </button>
-          );
-        })}
-      </>
-    );
-  };
-
-  return (
-    <>
-      <nav className="w-full !fixed top-0 !z-50 right-0 left-0 !bg-[#FFFFFF]">
-        <div className="w-full flex flex-col items-center relative">
-          <div className="border-b-[0.5px] border-[#E4E7EC] w-full flex justify-center">
-            <section className="z-30 flex items-center gap-[10px] py-[12px] lg:py-[14px] justify-between max-w-[1500px] w-full px-[16px] lg:px-[32px] bg-white">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="min-w-[24px] lg:hidden cursor-pointer"
-                onClick={() => setOpenSidebar((prev) => !prev)}
-              >
-                <path
-                  d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"
-                  fill="#101828"
-                />
-              </svg>
-
-              <Link
-                className="cursor-pointer w-fit hidden lg:flex items-center gap-[10px]"
-                href="/"
-              >
-                <Image
-                  src={"/images/insights_logo.png"}
-                  width={187}
-                  height={40}
-                  className="object-contain"
-                  alt="Insights Logo"
-                  loading="lazy"
-                />
-              </Link>
-
-              <SearchBar
-                placeholder="Search eLibrary"
-                name="search_eLibrary"
-                updateUrl
-                containerClassName="lg:!flex !hidden !w-[400px] lg:!w-[502px]"
-              />
-
-              <div className="flex gap-[15px] md:gap-[30px] items-center">
-                <Link
-                  href="#"
-                  className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+        <nav className="w-full !fixed top-0 !z-50 right-0 left-0 !bg-[#FFFFFF]">
+          <div className="w-full flex flex-col items-center relative">
+            <div className="border-b-[0.5px] border-[#E4E7EC] w-full flex justify-center">
+              <section className="z-30 flex items-center gap-[10px] py-[12px] lg:py-[14px] justify-between max-w-[1500px] w-full px-[16px] lg:px-[32px] bg-white">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="min-w-[24px] lg:hidden cursor-pointer"
+                  onClick={() => setOpenSidebar((prev) => !prev)}
                 >
-                  {/* Check eTicket */}
-                  <FaTicketAlt
-                    size={16}
-                    className="text-[#0D0D12] hover:text-[#9a9ab3]"
-                    data-tooltip-id="e-ticket"
-                    data-tooltip-content="View eticket"
+                  <path
+                    d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"
+                    fill="#101828"
                   />
-                </Link>
-                <Tooltip id="e-ticket" place="top" />
+                </svg>
 
                 <Link
-                  href="/cart"
-                  className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
-                  data-tooltip-id="view-cart"
-                  data-tooltip-content="View Cart"
+                  className="cursor-pointer w-fit hidden lg:flex items-center gap-[10px]"
+                  href="/"
                 >
-                  <FaCartPlus
-                    size={16}
-                    className="text-[#0D0D12] hover:text-[#9a9ab3]"
+                  <Image
+                    src={"/images/insights_logo.png"}
+                    width={187}
+                    height={40}
+                    className="object-contain"
+                    alt="Insights Logo"
+                    loading="lazy"
                   />
-                  <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
-                    {cartCount}
-                  </div>
                 </Link>
-                <Tooltip id="view-cart" place="top" />
 
-                {user ? (
-                  <>
-                    <button
-                      className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
-                      onClick={() => handleModal("fundWallet")}
-                      data-tooltip-id="wallet-balance"
-                      data-tooltip-content="Wallet Balance"
-                    >
-                      <FaWallet
-                        size={16}
-                        className="text-[#0D0D12] hover:text-[#0D0D12]"
-                      />
-                      <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
-                        {walletBalance || "0"}
-                      </div>
-                    </button>
-                    <Tooltip id="wallet-balance" place="top" />
+                <SearchBar
+                  placeholder="Search eLibrary"
+                  name="search_eLibrary"
+                  updateUrl
+                  containerClassName="lg:!flex !hidden !w-[400px] lg:!w-[502px]"
+                />
 
-                    {/* <button
+                <div className="flex gap-[15px] md:gap-[30px] items-center">
+                  <Link
+                    href="#"
+                    className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                  >
+                    {/* Check eTicket */}
+                    <FaTicketAlt
+                      size={16}
+                      className="text-[#0D0D12] hover:text-[#9a9ab3]"
+                      data-tooltip-id="e-ticket"
+                      data-tooltip-content="View eticket"
+                    />
+                  </Link>
+                  <Tooltip id="e-ticket" place="top" />
+
+                  <Link
+                    href="/cart"
+                    className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                    data-tooltip-id="view-cart"
+                    data-tooltip-content="View Cart"
+                  >
+                    <FaCartPlus
+                      size={16}
+                      className="text-[#0D0D12] hover:text-[#9a9ab3]"
+                    />
+                    <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
+                      {cartCount}
+                    </div>
+                  </Link>
+                  <Tooltip id="view-cart" place="top" />
+
+                  {user ? (
+                    <>
+                      <button
+                        className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                        onClick={() => handleModal("fundWallet")}
+                        data-tooltip-id="wallet-balance"
+                        data-tooltip-content="Wallet Balance"
+                      >
+                        <FaWallet
+                          size={16}
+                          className="text-[#0D0D12] hover:text-[#0D0D12]"
+                        />
+                        <div className="whitespace-nowrap px-[4px] absolute top-[-8px] right-[-8px] flex items-center justify-center text-[11px] leading-[100%] min-h-[18px] min-w-[18px] rounded-full bg-[#FF6300] text-white">
+                          {walletBalance || "0"}
+                        </div>
+                      </button>
+                      <Tooltip id="wallet-balance" place="top" />
+
+                      {/* <button
                       onClick={handleLogout}
                       className="font-[600] text-f14 md:text-f15 cursor-pointer text-[#0D0D12] hover:text-[#0D0D12]"
                     >
                       Logout
                     </button> */}
 
-                    <button
-                      className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
-                      onClick={handleLogout}
-                      data-tooltip-id="logout"
-                      data-tooltip-content="Logout"
-                    >
-                      <FaSignOutAlt
-                        size={16}
-                        className="text-[#0D0D12] hover:text-[#0D0D12]"
-                      />
-                    </button>
-                    <Tooltip id="logout" place="top" />
-                  </>
-                ) : null}
-              </div>
-            </section>
-          </div>
+                      <button
+                        className="font-[600] !bg-[#F4F7F8] !text-[#0D0D12] hover:!bg-[#F6F8FA] border-[2px] !border-[#F4F7F8] cursor-pointer relative min-w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                        onClick={handleLogout}
+                        data-tooltip-id="logout"
+                        data-tooltip-content="Logout"
+                      >
+                        <FaSignOutAlt
+                          size={16}
+                          className="text-[#0D0D12] hover:text-[#0D0D12]"
+                        />
+                      </button>
+                      <Tooltip id="logout" place="top" />
+                    </>
+                  ) : null}
+                </div>
+              </section>
+            </div>
 
-          <aside className="bg-white px-[32px] py-[15px] gap-[12px] max-w-[1500px] w-full hidden lg:flex items-center">
-            {menuContents()}
-          </aside>
+            <aside className="bg-white px-[32px] py-[15px] gap-[12px] max-w-[1500px] w-full hidden lg:flex items-center">
+              {menuContents()}
+            </aside>
 
-          {/* MOBILE SIDE MENU */}
-          <motion.aside
-            variants={variants}
-            animate={openSidebar ? "slideInAndOpacity" : { top: -350 }}
-            className={`z-20 lg:hidden bg-white absolute py-[16px] gap-[8px] w-full ${
-              openSidebar ? "flex" : "hidden"
-            } flex-col items-center`}
-          >
-            {menuContents()}
-          </motion.aside>
+            {/* MOBILE SIDE MENU */}
+            <motion.aside
+              variants={variants}
+              animate={openSidebar ? "slideInAndOpacity" : { top: -350 }}
+              className={`z-20 lg:hidden bg-white absolute py-[16px] gap-[8px] w-full ${
+                openSidebar ? "flex" : "hidden"
+              } flex-col items-center`}
+            >
+              {menuContents()}
+            </motion.aside>
 
-          {/* MOBILE BACKDROP */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={`bg-[#0C111D80] w-full h-screen lg:!hidden
+            {/* MOBILE BACKDROP */}
+            <motion.section
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className={`bg-[#0C111D80] w-full h-screen lg:!hidden
               top-0 left-0 bottom-0 right-0 fixed justify-center items-center
               ${openSidebar ? "flex" : "hidden"}
             `}
-            onClick={() => setOpenSidebar(false)}
-            transition={{ duration: 0.2 }}
-            exit={{ opacity: 0, transition: { delay: 0.2 } }}
-          />
-        </div>
-      </nav>
+              onClick={() => setOpenSidebar(false)}
+              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, transition: { delay: 0.2 } }}
+            />
+          </div>
+        </nav>
 
-      <FundWalletModal
-        isOpen={openModal == "fundWallet"}
-        onClose={() => handleModal("")}
-        userEmail={user?.email || ""}
-      />
-      <LoginModal
-        isOpen={openModal == "login"}
-        onClose={() => handleModal("")}
-        handleResetPassword={() => handleModal("reset")}
-      />
-      <SignUpModal
-        isOpen={openModal == "signup"}
-        onClose={() => handleModal("")}
-      />
-      <PasswordResetModal
-        isOpen={openModal == "reset"}
-        onClose={() => handleModal("")}
-      />
-    </>
-  );
-};
+        <FundWalletModal
+          isOpen={openModal == "fundWallet"}
+          onClose={() => handleModal("")}
+          userEmail={user?.email || ""}
+        />
+        <LoginModal
+          isOpen={openModal == "login"}
+          onClose={() => handleModal("")}
+          handleResetPassword={() => handleModal("reset")}
+        />
+        <SignUpModal
+          isOpen={openModal == "signup"}
+          onClose={() => handleModal("")}
+        />
+        <PasswordResetModal
+          isOpen={openModal == "reset"}
+          onClose={() => handleModal("")}
+        />
+      </>
+    );
+  };
 
 export interface NavLinkProps {
   id: number;

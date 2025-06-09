@@ -1,4 +1,4 @@
-import { AXIOS } from '@/configs';
+import { api } from '@/configs';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -24,7 +24,7 @@ export const apiRequest = async <T = any>({
   };
 
   try {
-    const response: AxiosResponse<T> = await AXIOS(config);
+    const response: AxiosResponse<T> = await api(config);
     return response?.data;
     // eslint-disable-next-line
   } catch (error: any) {

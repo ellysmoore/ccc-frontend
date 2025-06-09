@@ -1,71 +1,39 @@
-'use client';
+import axios from "axios";
 
-import axios, { AxiosResponse, AxiosError } from 'axios';
-import { getCookie, removeCookie } from '@/utils/cookie';
+export const api = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    withCredentials: true, // Needed if you're using cookies for sessions
+});
 
-const shownErrors = new Map<string, NodeJS.Timeout>();
+// Request Interceptor: Add Bearer token if available
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("cc_token"); // Or use a Redux selector via store.getState()
 
-const AXIOS = axios.create();
+        if (token) {
+            config.headers = {
+                ...config.headers,
+                Authorization: `Bearer ${token}`,
+            };
+        }
 
-// INTERCEPT ALL REQUESTS
-AXIOS.interceptors.request.use(
-  async (request) => {
-    const token = getCookie('access_token');
-
-    if (!request.headers?.authorization && token) {
-      request.headers.authorization = `Bearer ${token}`;
-    }
-    return request;
-  },
-  (error: AxiosError) => {
-    console.warn('REQUEST ERROR>>>', error?.response?.data);
-    return Promise.reject(error);
-  }
+        return config;
+    },
+    (error) => Promise.reject(error)
 );
 
-// INTERCEPT ALL RESPONSES
-AXIOS.interceptors.response.use(
-  async (response: AxiosResponse) => {
-    if (response && response.status) {
-      return response;
+// Response Interceptor: Handle 401 Unauthorized
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            console.warn("Unauthorized, logging out...");
+            // store.dispatch(logout());
+
+            // Optional: redirect user to login page
+            window.location.href = "/login";
+        }
+
+        return Promise.reject(error);
     }
-    return Promise.reject(new Error('Response is undefined or missing status'));
-  },
-  async (error) => {
-    const errorMessage = Array.isArray(error?.response?.data?.message)
-      ? error?.response?.data?.message[0]
-      : error?.response?.data?.message || error?.response?.message || 'An unknown error occurred';
-
-    const errorKey = `${error?.response?.status}-${errorMessage}`;
-
-    if (!error?.response?.status) {
-      handleError('network-error', 'Network error. Please try again later');
-    } else {
-      // HANDLE SPECIFIC ERRORS BASED ON RESPONSE STATUS
-      switch (error?.response?.status) {
-        case 401:
-          removeCookie('access_token');
-          window.location.replace('/');
-          break;
-        default:
-          handleError(errorKey, errorMessage);
-          break;
-      }
-    }
-
-    return Promise.reject(error);
-  }
 );
-
-const handleError = (errorKey: string, message: string) => {
-  if (!shownErrors.has(errorKey)) {
-    const timeout = setTimeout(() => {
-      shownErrors.delete(errorKey);
-    }, 5000);
-
-    shownErrors.set(errorKey, timeout);
-    return { message };
-  }
-};
-
-export { AXIOS };

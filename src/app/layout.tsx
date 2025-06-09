@@ -6,7 +6,8 @@ import "./globals.css";
 import { QueryProvider } from "@/providers";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
-import 'react-tooltip/dist/react-tooltip.css'
+import "react-tooltip/dist/react-tooltip.css";
+import ProviderWrapper from "@/store/ProviderWrapper";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -33,18 +34,23 @@ export default function RootIndexLayout({
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <Suspense fallback={
-            <div className='p-[16px] md:p-[25px] w-full h-screen flex flex-col items-center justify-center '>
+        <Suspense
+          fallback={
+            <div className="p-[16px] md:p-[25px] w-full h-screen flex flex-col items-center justify-center ">
               <Loader size="big" />
             </div>
           }
         >
-          <QueryProvider>
-            <ToastContainer autoClose={5000} position="top-right" closeOnClick />
-            <div className='w-full h-full'>
-              {children}
-            </div>
-          </QueryProvider>
+          <ProviderWrapper>
+            <QueryProvider>
+              <ToastContainer
+                autoClose={5000}
+                position="top-right"
+                closeOnClick
+              />
+              <div className="w-full h-full">{children}</div>
+            </QueryProvider>
+          </ProviderWrapper>
         </Suspense>
       </body>
     </html>
