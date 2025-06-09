@@ -1,18 +1,12 @@
 'use client'
 
 import { Footer, Navbar } from '@/components';
-import { User } from '@/types';
 import React, { ReactNode, useEffect } from 'react'
 
 const MainLayout = ({
   children
 } : MainLayoutProps) => {
-  // TODO: GET USER
-  const user: User = {
-    email: 'example@gmail.com',
-    is_administrator: false,
-    is_super_admin: false
-  };
+
 
   useEffect(() => {
     // LOAD Tawk.to CHAT SCRIPT DYNAMICALLY
@@ -41,7 +35,7 @@ const MainLayout = ({
 
   return (
     <div className='bg-white overflow-y-auto min-h-screen w-full flex flex-col items-center justify-between'>
-      <Navbar user={user} />
+      <Navbar />
       <main className='px-[16px] lg:px-[32px] w-full max-w-[1500px] grow-1 h-full md:h-[calc(100vh-208px)] mt-[90px] lg:mt-[148px] mb-[10px] flex flex-col'>
         {children}
       </main>
