@@ -11,6 +11,7 @@ api.interceptors.request.use(
         const token = localStorage.getItem("cc_token"); // Or use a Redux selector via store.getState()
 
         if (token) {
+            //@ts-ignore
             config.headers = {
                 ...config.headers,
                 Authorization: `Bearer ${token}`,
